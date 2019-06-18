@@ -1,14 +1,18 @@
 <template>
   <div id="app">
+    <h1 class="title">TRISTZEE</h1>
     <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+      <router-link to="/">Game</router-link> |
+      <router-link to="/Score">Score</router-link>
     </div>
     <router-view/>
   </div>
 </template>
 
 <style>
+h1 .title {
+  font-family: 'Courier New', Courier, monospace;
+}
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
