@@ -47,12 +47,15 @@ export default new Vuex.Store({
         held : false
       }
     ],
-    rollNumber : null
+    rollNumber : 1
   },
   mutations: {
     rollDice (state) {
-      state.rollNumber < 3 ? state.dice.map(d => !d.held ? d.value = Math.floor((Math.random() * 6) + 1) : null) : alert('Too many turns, you jerk')
+      state.rollNumber <= 3 ? state.dice.map(d => !d.held ? d.value = Math.floor((Math.random() * 6) + 1) : null) : alert('Too many turns, you jerk')
       state.rollNumber++
+    },
+    resetRoll (state) {
+      state.rollNumber = 1;
     }
   },
   actions: {
