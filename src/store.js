@@ -23,32 +23,27 @@ export default new Vuex.Store({
     dice : [
       {
         id : 1,
-        value : null,
+        value : 1,
         held : false
       },
       {
         id : 2,
-        value : null,
+        value : 2,
         held : false
       },
       {
         id : 3,
-        value : null,
+        value : 3,
         held : false
       },
       {
         id : 4,
-        value : null,
+        value : 4,
         held : false
       },
       {
         id : 5,
-        value : null,
-        held : false
-      },
-      {
-        id : 6,
-        value : null,
+        value : 5,
         held : false
       }
     ],
@@ -56,7 +51,8 @@ export default new Vuex.Store({
   },
   mutations: {
     rollDice (state) {
-      state.dice.map(die => die.value = Math.floor((Math.random() * 6) + 1))
+      state.rollNumber < 3 ? state.dice.map(d => !d.held ? d.value = Math.floor((Math.random() * 6) + 1) : null) : alert('Too many turns, you jerk')
+      state.rollNumber++
     }
   },
   actions: {
