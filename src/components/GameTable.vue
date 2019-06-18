@@ -1,45 +1,39 @@
 <template>
   <div class="game-table">
-    <div v-for="die in dice" :key="die.id">
-      <Die :value="die.value" />
-    </div>
+    <Dice />
     <button class="btn" @click="rollDice">Roll Dice</button>
+    <button class="btn" @click="resetRoll">Reset</button>
   </div>
 </template>
 
 <script>
 import { mapState, mapMutations } from 'vuex'
-import Die from './Die'
+import Dice from './Dice'
 
 export default {
   name: 'GameTable',
   components: {
-    Die
+    Dice
   },
   computed: {
     ...mapState([
       'gameRunning',
       'players',
-      'dice',
       'rollNumber'
     ])
   },
   methods: {
     ...mapMutations([
-      'rollDice'
+      'rollDice',
+      'resetRoll'
     ])
   }
 }
 </script>
 
 <style scoped>
-.game-table {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: space-around;
-}
 .btn {
+  margin-top: 20px;
   cursor: pointer;
 }
 </style>
