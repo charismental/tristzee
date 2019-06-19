@@ -22,6 +22,7 @@ props: {
 
 <style scoped>
 .die {
+    cursor: pointer;
   position: relative;
   height: 48px;
   width: 48px;
