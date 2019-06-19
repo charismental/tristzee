@@ -11,12 +11,12 @@ export default new Vuex.Store({
         id : 1,
         name: 'Tristin',
         score: {
-          1 : null,
-          2 : null,
-          3 : null,
-          4 : null,
-          5 : null,
-          6 : null
+          one : null,
+          two : null,
+          three : null,
+          four : null,
+          five : null,
+          six : null
         }
       }
     ],
@@ -51,6 +51,9 @@ export default new Vuex.Store({
     rollNumber : 1
   },
   mutations: {
+    addScore (state, payload) {
+      Vue.set(state.players[0].score, payload.dieNum, payload.value)
+    },
     rollDice (state) {
       state.rollNumber <= 3 ? state.dice.map(d => !d.held ? d.value = Math.floor((Math.random() * 6) + 1) : null) : alert('Too many turns, you jerk')
       state.rollNumber++
