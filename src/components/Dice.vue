@@ -1,7 +1,7 @@
 <template>
     <div class="dice">
         <div v-for="die in dice" :key="die.id" @click="holdDie(die)">
-            <Die :value="die.value" :held="die.held" />
+            <Die :value="die.value" />
         </div>
     </div>
 </template>
@@ -29,9 +29,12 @@ methods: {
 
 <style scoped>
 .dice {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: space-around;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
 }
 </style>

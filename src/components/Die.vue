@@ -1,5 +1,5 @@
 <template>
-    <div class="die" :class='[{"held" : held}]'>
+    <div class="die">
       <div class="dot a" :class='[{"hidden" : value <= 3}]'></div>
       <div class="b"></div>
       <div class="dot c" :class='[{"hidden" : value === 1}]'></div>
@@ -15,8 +15,7 @@
 <script>
 export default {
 props: {
-    value : Number,
-    held : Boolean
+    value : Number
 }
 }
 </script>
@@ -37,10 +36,6 @@ props: {
   grid-template-areas: "a b c"
                       "d e f"
                       "g h i";
-}
-.held {
-    border: 3px solid green;
-    background-color: lightgreen;
 }
 .dot {
   height: 10px;
