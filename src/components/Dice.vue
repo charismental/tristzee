@@ -1,14 +1,14 @@
 <template>
     <div class="dice">
-        <div v-for="die in dice" :key="die.id">
-            <Die :value="die.value" />
+        <div v-for="die in dice" :key="die.id" @click="holdDie(die)">
+            <Die :value="die.value" :held="die.held" />
         </div>
     </div>
 </template>
 
 <script>
 import Die from './Die'
-import { mapState } from 'vuex'
+import { mapState, mapMutations } from 'vuex'
 
 export default {
 components: {
@@ -17,6 +17,11 @@ components: {
 computed: {
     ...mapState([
         'dice'
+    ])
+},
+methods: {
+    ...mapMutations([
+        'holdDie'
     ])
 }
 }

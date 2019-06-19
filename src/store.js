@@ -56,6 +56,14 @@ export default new Vuex.Store({
     },
     resetRoll (state) {
       state.rollNumber = 1;
+      state.dice.map(d => {
+        d.value = d.id
+        d.held = false
+      })
+    },
+    holdDie (state, payload) {
+      const die = state.dice.find(d => d.id === payload.id)
+      state.dice[die.id - 1] = Object.assign({}, die, { held: !die.held })
     }
   },
   actions: {
