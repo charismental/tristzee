@@ -23,37 +23,29 @@ export default new Vuex.Store({
     dice : [
       {
         id : 1,
-        value : 1,
-        held : false
+        value : 1
       },
       {
         id : 2,
-        value : 2,
-        held : false
+        value : 2
       },
       {
         id : 3,
-        value : 3,
-        held : false
+        value : 3
       },
       {
         id : 4,
-        value : 4,
-        held : false
+        value : 4
       },
       {
         id : 5,
-        value : 5,
-        held : false
+        value : 5
       }
     ],
     heldDice: [],
     rollNumber : 1
   },
   mutations: {
-    addScore (state, payload) {
-      Vue.set(state.players[0].score, payload.dieNum, payload.value)
-    },
     rollDice (state) {
       state.rollNumber <= 3 ? state.dice.map(d => !d.held ? d.value = Math.floor((Math.random() * 6) + 1) : null) : alert('Too many turns, you jerk')
       state.rollNumber++
@@ -64,28 +56,23 @@ export default new Vuex.Store({
       state.dice = [
         {
           id : 1,
-          value : 1,
-          held : false
+          value : 1
         },
         {
           id : 2,
-          value : 2,
-          held : false
+          value : 2
         },
         {
           id : 3,
-          value : 3,
-          held : false
+          value : 3
         },
         {
           id : 4,
-          value : 4,
-          held : false
+          value : 4
         },
         {
           id : 5,
-          value : 5,
-          held : false
+          value : 5
         }
       ]
     },
@@ -103,6 +90,13 @@ export default new Vuex.Store({
     }
   },
   actions: {
-
+    addScore ({ state, commit }, { dieNum, value }) {
+      // fix this for multiple players
+      const score = state.players[0].score[dieNum]
+      if (!score) {
+        state.rollNumber > 1 ? Vue.set(state.players[0].score, dieNum, value) : ''
+        commit('resetRoll')
+      }
+    }
   }
 })
