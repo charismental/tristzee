@@ -56,6 +56,10 @@ export default new Vuex.Store({
     rollNumber : 1
   },
   mutations: {
+    addUpperBonus (state) {
+      // eslint-disable-next-line no-undef
+      Vue.set(state.players[0].score, 'upperBonus', 35)
+    },
     incrementTristzee (state) {
       const newCount = state.players[0].tristzeeCounter++
       // eslint-disable-next-line no-undef

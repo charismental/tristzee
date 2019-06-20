@@ -26,21 +26,21 @@
         </div>
         <div class="score-item">Total Score</div>
         <div class="score-item">
-            <span class="score">{{ totalPoints }}</span>
+            <span class="score">{{ totalPoints() }}</span>
         </div>
         <div class="score-item">Bonus</div>
         <div class="score-item">
-            <span class="score">{{ 0 }}</span>
+            <span class="score">{{ this.players[0].score.upperBonus }}</span>
         </div>
         <div class="score-item">Total of Upper Section</div>
         <div class="score-item">
-            <span class="score">{{ totalPoints }}</span>
+            <span class="score">{{ totalUpperPoints }}</span>
         </div>
     </div>
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapActions, mapMutations } from 'vuex'
 
 export default {
 computed: {
@@ -50,13 +50,20 @@ computed: {
         'heldDice',
         'rollNumber'
     ]),
-    totalPoints () {
-        const score = this.players[0].score
-        const total = score.one + score.two + score.three + score.four + score.five + score.six
-        return total
+    totalUpperPoints () {
+        return this.players[0].score.upperBonus + this.totalPoints()
     }
 },
 methods: {
+    ...mapMutations([
+        'addUpperBonus'
+    ]),
+    totalPoints () {
+        const score = this.players[0].score
+        const total = score.one + score.two + score.three + score.four + score.five + score.six
+        total >= 63 ? this.addUpperBonus() : ''
+        return total
+    },
     displayScore (field, num) {
         if (this.players[0].score[field] === 0 || this.players[0].score[field]) {
             return this.players[0].score[field]
