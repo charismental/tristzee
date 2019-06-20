@@ -105,13 +105,13 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    addScore ({ state, commit }, { field, value, tristzee }) {
+    addScore ({ state, commit }, { field, value }) {
       // fix this for multiple players
       const score = state.players[0].score[field]
       if (!score) {
         state.rollNumber > 1 ? Vue.set(state.players[0].score, field, value) : ''
         commit('resetRoll')
-        tristzee ? commit('incrementTristzee') : ''
+        // value === 50 || value === 100 ? commit('incrementTristzee') : ''
       }
     }
   }
