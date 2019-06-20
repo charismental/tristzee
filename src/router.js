@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Game from './views/Game.vue'
-import Score from './views/Score.vue'
+import UpperScore from './views/UpperScore.vue'
+import LowerScore from './views/LowerScore.vue'
+
 
 Vue.use(Router)
 
@@ -11,13 +12,13 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'Game',
-      component: Game
+      name: 'upper score',
+      component: UpperScore
     },
     {
-      path: '/Score',
-      name: 'score',
-      component: Score
+      path: '/lower',
+      name: 'lower score',
+      component: LowerScore
     }
   ]
 })
