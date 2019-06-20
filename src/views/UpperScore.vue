@@ -2,27 +2,27 @@
     <div class="score-sheet">
         <div class="score-item">Ones</div>
         <div class="score-item" @click="addScore({'field':'one', 'value':potentialScore(1)})">
-            <span class="score" :class="[{'hidden': players[0].score.one === null}]">{{ players[0].score.one || potentialScore(1) }}</span>
+            <span class="score" :class="[{'hidden': players[0].score.one === null}]">{{ displayScore('one', 1) }}</span>
         </div>
         <div class="score-item">Twos</div>
         <div class="score-item" @click="addScore({'field':'two', 'value':potentialScore(2)})">
-            <span class="score" :class="[{'hidden': players[0].score.two === null}]">{{ players[0].score.two || potentialScore(2) }}</span>
+            <span class="score" :class="[{'hidden': players[0].score.two === null}]">{{ displayScore('two', 2) }}</span>
         </div>
         <div class="score-item">Threes</div>
         <div class="score-item" @click="addScore({'field':'three', 'value':potentialScore(3)})">
-            <span class="score" :class="[{'hidden': players[0].score.three === null}]">{{ players[0].score.three || potentialScore(3) }}</span>
+            <span class="score" :class="[{'hidden': players[0].score.three === null}]">{{ displayScore('three', 3) }}</span>
         </div>
         <div class="score-item">Fours</div>
         <div class="score-item" @click="addScore({'field':'four', 'value':potentialScore(4)})">
-            <span class="score" :class="[{'hidden': players[0].score.four === null}]">{{ players[0].score.four || potentialScore(4) }}</span>
+            <span class="score" :class="[{'hidden': players[0].score.four === null}]">{{ displayScore('four', 4) }}</span>
         </div>
         <div class="score-item">Fives</div>
         <div class="score-item" @click="addScore({'field':'five', 'value':potentialScore(5)})">
-            <span class="score" :class="[{'hidden': players[0].score.five === null}]">{{ players[0].score.five || potentialScore(5) }}</span>
+            <span class="score" :class="[{'hidden': players[0].score.five === null}]">{{ displayScore('five', 5) }}</span>
         </div>
         <div class="score-item">Sixes</div>
         <div class="score-item" @click="addScore({'field':'six', 'value':potentialScore(6)})">
-            <span class="score" :class="[{'hidden': players[0].score.six === null}]">{{ players[0].score.six || potentialScore(6) }}</span>
+            <span class="score" :class="[{'hidden': players[0].score.six === null}]">{{ displayScore('six', 6) }}</span>
         </div>
         <div class="score-item">Total Score</div>
         <div class="score-item">
@@ -57,6 +57,13 @@ computed: {
     }
 },
 methods: {
+    displayScore (field, num) {
+        if (this.players[0].score[field] === 0 || this.players[0].score[field]) {
+            return this.players[0].score[field]
+        } else {
+            return this.potentialScore(num)
+        }
+    },
     potentialScore (n) {
         if (this.rollNumber > 1) {
             const allDice = this.dice.concat(this.heldDice)

@@ -2,31 +2,31 @@
     <div class="score-sheet">
         <div class="score-item">3 of a kind</div>
         <div class="score-item" @click="addScore({'field':'threeKind', 'value':kindScore(3)})">
-            <span class="score" :class="[{'hidden': players[0].score.threeKind === null}]">{{ players[0].score.threeKind || kindScore(3) }}</span>
+            <span class="score" :class="[{'hidden': players[0].score.threeKind === null}]">{{ displayScore('threeKind') || kindScore(3) }}</span>
         </div>
         <div class="score-item">4 of a kind</div>
         <div class="score-item" @click="addScore({'field':'fourKind', 'value':kindScore(4)})">
-            <span class="score" :class="[{'hidden': players[0].score.fourKind === null}]">{{ players[0].score.fourKind || kindScore(4) }}</span>
+            <span class="score" :class="[{'hidden': players[0].score.fourKind === null}]">{{ displayScore('fourKind') || kindScore(4) }}</span>
         </div>
         <div class="score-item">Full House</div>
         <div class="score-item" @click="addScore({'field':'fullHouse', 'value':fullHouseScore()})">
-            <span class="score" :class="[{'hidden': players[0].score.fullHouse === null}]">{{ players[0].score.fullHouse || fullHouseScore() }}</span>
+            <span class="score" :class="[{'hidden': players[0].score.fullHouse === null}]">{{ displayScore('fullHouse') || fullHouseScore() }}</span>
         </div>
-        <div class="score-item">Low Straight</div>
+        <div class="score-item">Small Straight</div>
         <div class="score-item" @click="addScore({'field':'lowStraight', 'value':straightScore(4)})">
-            <span class="score" :class="[{'hidden': players[0].score.lowStraight === null}]">{{ players[0].score.lowStraight || straightScore(4) }}</span>
+            <span class="score" :class="[{'hidden': players[0].score.lowStraight === null}]">{{ displayScore('lowStraight') || straightScore(4) }}</span>
         </div>
-        <div class="score-item">High Straight</div>
+        <div class="score-item">Large Straight</div>
         <div class="score-item" @click="addScore({'field':'highStraight', 'value':straightScore(5)})">
-            <span class="score" :class="[{'hidden': players[0].score.highStraight === null}]">{{ players[0].score.highStraight || straightScore(5) }}</span>
+            <span class="score" :class="[{'hidden': players[0].score.highStraight === null}]">{{ displayScore('highStraight') || straightScore(5) }}</span>
         </div>
         <div class="score-item">Tristzee</div>
-        <div class="score-item" @click="addScore({'field':'tristzee', 'value':kindScore(5), 'tristzee':true})">
-            <span class="score" :class="[{'hidden': players[0].score.tristzee === null}]">{{ players[0].score.tristzee || kindScore(5) }}</span>
+        <div class="score-item" @click="addScore({'field':'tristzee', 'value':kindScore(5)})">
+            <span class="score" :class="[{'hidden': players[0].score.tristzee === null}]">{{ displayScore('tristzee') || kindScore(5) }}</span>
         </div>
         <div class="score-item">Chance</div>
         <div class="score-item" @click="addScore({'field':'chance', 'value':kindScore(1)})">
-            <span class="score" :class="[{'hidden': players[0].score.chance === null}]">{{ players[0].score.chance || kindScore(1) }}</span>
+            <span class="score" :class="[{'hidden': players[0].score.chance === null}]">{{ displayScore('chance') || kindScore(1) }}</span>
         </div>
         <div class="score-item">Tristzee Bonus</div>
         <div class="score-item" @click="addScore({'field':'tristzeeBonus', 'value':(tristzeeCounter - 1) * 100})">
@@ -70,6 +70,13 @@ computed: {
     }
 },
 methods: {
+    displayScore (field) {
+        if (this.players[0].score[field] === 0) {
+            return '0'
+        } else if (this.players[0].score[field]) {
+            return this.players[0].score[field]
+        }
+    },
     countInArray (array, num) {
         return array.filter(x => x === num).length
     },
