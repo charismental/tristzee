@@ -4,7 +4,6 @@
     <Dice />
     <button class="btn" @click="rollDice">Roll Dice</button>
     <button class="btn" @click="resetRoll">Reset</button>
-    <ScoreSheet />
   </div>
 </template>
 
@@ -12,14 +11,12 @@
 import { mapState, mapMutations } from 'vuex'
 import Dice from './Dice'
 import HeldDice from './HeldDice'
-import ScoreSheet from './ScoreSheet'
 
 export default {
   name: 'GameTable',
   components: {
     Dice,
-    HeldDice,
-    ScoreSheet
+    HeldDice
   },
   computed: {
     ...mapState([
