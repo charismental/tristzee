@@ -1,13 +1,23 @@
 <template>
   <div id="app">
     <h1 class="title">TRISTZEE</h1>
+    <GameTable />
     <div id="nav">
-      <router-link to="/">Game</router-link> |
-      <router-link to="/Score">Score</router-link>
+      <router-link to="/">Upper Score</router-link> |
+      <router-link to="/lower">Lower Score</router-link>
     </div>
     <router-view/>
   </div>
 </template>
+
+<script>
+import GameTable from '@/components/GameTable.vue'
+export default {
+  components: {
+    GameTable
+  }
+}
+</script>
 
 <style>
 h1 .title {
@@ -21,7 +31,7 @@ h1 .title {
   color: #2c3e50;
 }
 #nav {
-  padding: 30px;
+  margin-top: 20px;
 }
 
 #nav a {
