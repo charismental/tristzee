@@ -16,8 +16,18 @@ export default new Vuex.Store({
           three : null,
           four : null,
           five : null,
-          six : null
-        }
+          six : null,
+          upperBonus : null,
+          threeKind : null,
+          fourKind : null,
+          fullHouse : null,
+          lowStraight : null,
+          highStraight : null,
+          tristzee : null,
+          chance : null,
+          tristzeeBonus : null
+        },
+        tristzeeCounter : 0
       }
     ],
     dice : [
@@ -46,6 +56,11 @@ export default new Vuex.Store({
     rollNumber : 1
   },
   mutations: {
+    incrementTristzee (state) {
+      const newCount = state.players[0].tristzeeCounter++
+      // eslint-disable-next-line no-undef
+      Vue.set(state.players[0], tristzeeCounter, newCount)
+    },
     rollDice (state) {
       state.rollNumber <= 3 ? state.dice.map(d => !d.held ? d.value = Math.floor((Math.random() * 6) + 1) : null) : alert('Too many turns, you jerk')
       state.rollNumber++
@@ -90,13 +105,20 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    addScore ({ state, commit }, { dieNum, value }) {
+    addScore ({ state, commit }, { field, value, tristzee }) {
       // fix this for multiple players
-      const score = state.players[0].score[dieNum]
+      const score = state.players[0].score[field]
       if (!score) {
-        state.rollNumber > 1 ? Vue.set(state.players[0].score, dieNum, value) : ''
+        state.rollNumber > 1 ? Vue.set(state.players[0].score, field, value) : ''
         commit('resetRoll')
+        tristzee ? commit('incrementTristzee') : ''
       }
     }
   }
+  // getters: {
+  //   upperScore: state => (id) => {
+  //     return state.players
+  //       .find(p => p.id = id)
+  //   }
+  // }
 })
