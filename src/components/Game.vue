@@ -1,34 +1,40 @@
 <template>
   <div class="game">
-    <Dice />
-    <button class="btn" @click="rollDice">Roll Dice</button>
-    <button class="btn" @click="resetRoll">Reset</button>
-    <div id="nav">
-      <router-link to="/">Upper Score</router-link> |
-      <router-link to="/lower">Lower Score</router-link>
+    <PlayerCreator v-if="!gameRunning" />
+    <div v-else>
+      <Dice />
+      <button class="btn" @click="rollDice">Roll Dice</button>
+      <button class="btn" @click="resetRoll">Reset</button>
+      <div id="nav">
+        <router-link to="/">Upper Score</router-link> |
+        <router-link to="/lower">Lower Score</router-link>
+      </div>
+      <div class="player-info">
+        <span class="player-name">{{ activePlayer.name }} -</span>
+        <span class="rolls-remaining">{{ rollsRemaining }}</span>
+      </div>
+      <router-view :player="activePlayer" />
     </div>
-    <div class="player-info">
-      <span class="player-name">{{ activePlayer.name }} -</span>
-      <span class="rolls-remaining">{{ rollsRemaining }}</span>
-    </div>
-    <router-view :player="activePlayer" />
   </div>
 </template>
 
 <script>
 import { mapState, mapMutations } from 'vuex'
-import Dice from '@/components/Dice.vue'
+import Dice from '@/components/Dice'
+import PlayerCreator from '@/components/PlayerCreator'
 
 export default {
   name: 'Game',
   components: {
-    Dice
+    Dice,
+    PlayerCreator
   },
   computed: {
     ...mapState([
       'activePlayerID',
       'players',
-      'rollNumber'
+      'rollNumber',
+      'gameRunning'
     ]),
     activePlayer () {
       return this.players.find(p => p.id === this.activePlayerID)
@@ -37,9 +43,9 @@ export default {
       if (this.rollNumber === 4) {
         return 'Out of rolls, dork'
       } else if (this.rollNumber === 3) {
-        return '1 turn remaining'
+        return '1 roll remaining'
       } else {
-        return `${4 - this.rollNumber} turns remaining`
+        return `${4 - this.rollNumber} rolls remaining`
       }
     }
   },
