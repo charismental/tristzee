@@ -8,30 +8,7 @@ export default new Vuex.Store({
     gameRunning: false,
     activePlayerIndex: 0,
     activePlayerID: 1,
-    players: [
-      {
-        id: 1,
-        name: 'Tristin',
-        score: {
-          one : null,
-          two : null,
-          three : null,
-          four : null,
-          five : null,
-          six : null,
-          upperBonus : null,
-          threeKind : null,
-          fourKind : null,
-          fullHouse : null,
-          lowStraight : null,
-          highStraight : null,
-          tristzee : null,
-          chance : null,
-          tristzeeBonus : null
-        },
-        tristzeeCounter : 0
-      }
-    ],
+    players: [],
     playerTemplate: 
       {
         id: null,
@@ -52,8 +29,7 @@ export default new Vuex.Store({
           tristzee : null,
           chance : null,
           tristzeeBonus : null
-        },
-        tristzeeCounter : 0
+        }
       },
     dice : [
       {
@@ -85,21 +61,19 @@ export default new Vuex.Store({
     rollNumber : 1
   },
   mutations: {
-    addUpperBonus (state, id) {
-      const player = state.players.find(p => p.id === id)
-      const playerIndex = state.players.indexOf(player)
-      Vue.set(state.players[playerIndex].score, 'upperBonus', 35)
-    },
-    incrementTristzee (state) {
-      const newCount = state.players[0].tristzeeCounter++
-      // eslint-disable-next-line no-undef
-      Vue.set(state.players[0], tristzeeCounter, newCount)
+    startGame (state) {
+      state.gameRunning = true
     },
     rollDice (state) {
       if (state.rollNumber <= 3) {
         state.dice.map(d => !d.held ? d.value = Math.floor((Math.random() * 6) + 1) : null)
         state.rollNumber++
       }
+    },
+    addUpperBonus (state, id) {
+      const player = state.players.find(p => p.id === id)
+      const playerIndex = state.players.indexOf(player)
+      Vue.set(state.players[playerIndex].score, 'upperBonus', 35)
     },
     resetRoll (state) {
       state.rollNumber = 1;
@@ -121,11 +95,18 @@ export default new Vuex.Store({
       const player = state.players.find(p => p.id === id)
       const playerIndex = state.players.indexOf(player)
       const score = player.score[field]
-      if (!score) {
-        state.rollNumber > 1 ? Vue.set(state.players[playerIndex].score, field, value) : ''
-        dispatch('switchTurns')
-        commit('resetRoll')
+      if (isNaN(value)) {
+        return
       }
+        if (value === 100  && !state.players[playerIndex].score.tristzeeBonus) {
+        state.players[playerIndex].score.tristzeeBonus = 100
+      } else if (value === 100 && state.players[playerIndex].score.tristzeeBonus) {
+        state.players[playerIndex].score.tristzeeBonus += 100
+      } else if (!score) {
+        state.rollNumber > 1 ? Vue.set(state.players[playerIndex].score, field, value) : ''
+      }
+      dispatch('switchTurns')
+      commit('resetRoll')
     },
     createPlayer ({ state }, name) {
       // const newPlayer = {...state.playerTemplate}

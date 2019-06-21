@@ -29,7 +29,7 @@
             <span class="score" :class="[{'hidden': player.score.chance === null}]">{{ displayScore('chance') || kindScore(1) }}</span>
         </div>
         <div class="score-item">Tristzee Bonus</div>
-        <div class="score-item">
+        <div class="score-item" @click="addScore({'field':'tristzeeBonus', 'id': player.id, 'value':tristzeeBonusScore()})">
             <span class="score" :class="[{'hidden': player.score.tristzeeBonus === null}]">{{ player.score.tristzeeBonus }}</span>
         </div>
         <div class="score-item">Total of Lower Section</div>
@@ -96,6 +96,16 @@ methods: {
                 return allDiceValues.reduce((a, b) => a + b, 0)
             } else {
                 return 0
+            }
+        }
+    },
+    tristzeeBonusScore () {
+        if (this.rollNumber > 1) {
+            const isTristzee = this.dice
+                .map(d => d.value)
+                .every((val, i, arr) => val === arr[0])
+            if (isTristzee && this.player.score.tristzee === 50) {
+                return 100
             }
         }
     },
