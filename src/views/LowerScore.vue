@@ -29,7 +29,7 @@
             <span class="score" :class="[{'hidden': players[0].score.chance === null}]">{{ displayScore('chance') || kindScore(1) }}</span>
         </div>
         <div class="score-item">Tristzee Bonus</div>
-        <div class="score-item" @click="addScore({'field':'tristzeeBonus', 'value':(tristzeeCounter - 1) * 100})">
+        <div class="score-item">
             <span class="score" :class="[{'hidden': players[0].score.tristzeeBonus === null}]">{{ players[0].score.tristzeeBonus }}</span>
         </div>
         <div class="score-item">Total of Lower Section</div>
