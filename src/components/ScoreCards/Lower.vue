@@ -159,10 +159,10 @@ methods: {
 .score-sheet {
     display: grid;
     grid-template-columns: auto 70px;
-    grid-template-rows: repeat(11, 40.91px);
+    grid-template-rows: repeat(11, 40px);
     border: 2px solid #000;
     max-width: 350px;
-    height: 450px;
+    height: 440px;
     margin: 20px auto 0;
 }
 .score-item {

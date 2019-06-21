@@ -50,7 +50,6 @@ export default {
 computed: {
     ...mapState([
         'dice',
-        'heldDice',
         'rollNumber'
     ]),
     totalUpperPoints () {
@@ -76,17 +75,14 @@ methods: {
     },
     potentialScore (n) {
         if (this.rollNumber > 1) {
-            const allDice = this.dice.concat(this.heldDice)
-            return allDice
+            return this.dice
                 .filter(d => d.value === n)
                 .map(d => d.value)
                 .reduce((a, b) => a + b, 0)
         }
     },
     ...mapActions([
-        'addScore',
-        'createPlayer',
-        'switchTurns'
+        'addScore'
     ])
 }
 }
@@ -108,10 +104,10 @@ methods: {
 .score-sheet {
     display: grid;
     grid-template-columns: auto 70px;
-    grid-template-rows: repeat(9, 50px);
+    grid-template-rows: repeat(9, 40px);
     border: 2px solid #000;
     max-width: 350px;
-    height: 450px;
+    height: 360px;
     margin: 20px auto 0;
 }
 .score-item {
