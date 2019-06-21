@@ -96,34 +96,16 @@ export default new Vuex.Store({
       Vue.set(state.players[0], tristzeeCounter, newCount)
     },
     rollDice (state) {
-      state.rollNumber <= 3 ? state.dice.map(d => !d.held ? d.value = Math.floor((Math.random() * 6) + 1) : null) : alert('Too many turns, you jerk')
-      state.rollNumber++
+      if (state.rollNumber <= 3) {
+        state.dice.map(d => !d.held ? d.value = Math.floor((Math.random() * 6) + 1) : null)
+        state.rollNumber++
+      }
     },
     resetRoll (state) {
       state.rollNumber = 1;
-      state.heldDice = []
-      state.dice = [
-        {
-          id : 1,
-          value : 1
-        },
-        {
-          id : 2,
-          value : 2
-        },
-        {
-          id : 3,
-          value : 3
-        },
-        {
-          id : 4,
-          value : 4
-        },
-        {
-          id : 5,
-          value : 5
-        }
-      ]
+      const oldDice = state.dice.slice(0)
+      const unheld = oldDice.map(d => Object.assign({}, d, { held: false }))
+      state.dice = unheld
     },
     holdUnholdDie (state, payload) {
       if (state.rollNumber > 1) {
