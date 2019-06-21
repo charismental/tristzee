@@ -61,6 +61,13 @@ export default new Vuex.Store({
     rollNumber : 1
   },
   mutations: {
+    initialiseStore(state) {
+			if(localStorage.getItem('store')) {
+				this.replaceState(
+					Object.assign(state, JSON.parse(localStorage.getItem('store')))
+				)
+			}
+		},
     startGame (state) {
       state.gameRunning = true
     },
