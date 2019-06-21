@@ -6,9 +6,11 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     gameRunning: false,
+    activePlayerIndex: 0,
+    activePlayerID: 1,
     players: [
       {
-        id : 1,
+        id: 1,
         name: 'Tristin',
         score: {
           one : null,
@@ -30,6 +32,29 @@ export default new Vuex.Store({
         tristzeeCounter : 0
       }
     ],
+    playerTemplate: 
+      {
+        id: null,
+        name: '',
+        score: {
+          one : null,
+          two : null,
+          three : null,
+          four : null,
+          five : null,
+          six : null,
+          upperBonus : null,
+          threeKind : null,
+          fourKind : null,
+          fullHouse : null,
+          lowStraight : null,
+          highStraight : null,
+          tristzee : null,
+          chance : null,
+          tristzeeBonus : null
+        },
+        tristzeeCounter : 0
+      },
     dice : [
       {
         id : 1,
@@ -56,9 +81,10 @@ export default new Vuex.Store({
     rollNumber : 1
   },
   mutations: {
-    addUpperBonus (state) {
-      // eslint-disable-next-line no-undef
-      Vue.set(state.players[0].score, 'upperBonus', 35)
+    addUpperBonus (state, id) {
+      const player = state.players.find(p => p.id === id)
+      const playerIndex = state.players.indexOf(player)
+      Vue.set(state.players[playerIndex].score, 'upperBonus', 35)
     },
     incrementTristzee (state) {
       const newCount = state.players[0].tristzeeCounter++
@@ -109,20 +135,30 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    addScore ({ state, commit }, { field, value }) {
-      // fix this for multiple players
-      const score = state.players[0].score[field]
+    addScore ({ state, commit, dispatch }, { field, value, id }) {
+      const player = state.players.find(p => p.id === id)
+      const playerIndex = state.players.indexOf(player)
+      const score = player.score[field]
       if (!score) {
-        state.rollNumber > 1 ? Vue.set(state.players[0].score, field, value) : ''
+        state.rollNumber > 1 ? Vue.set(state.players[playerIndex].score, field, value) : ''
+        dispatch('switchTurns')
         commit('resetRoll')
-        // value === 50 || value === 100 ? commit('incrementTristzee') : ''
       }
-    }
+    },
+    createPlayer ({ state }, name) {
+      // const newPlayer = {...state.playerTemplate}
+      // const newPlayer = Object.assign(state.playerTemplate)
+      // what a weird way to have to deep clone an object...
+      let newPlayer = JSON.parse(JSON.stringify(state.playerTemplate))
+      newPlayer.id = state.players.length + 1
+      newPlayer.name = name
+      state.players.push(newPlayer)
+    },
+    switchTurns ({ state }) {
+      const players = state.players.map(p => p.id)
+      state.activePlayerIndex++
+      state.activePlayerIndex = state.activePlayerIndex % players.length
+      state.activePlayerID = players[state.activePlayerIndex]
+    },
   }
-  // getters: {
-  //   upperScore: state => (id) => {
-  //     return state.players
-  //       .find(p => p.id = id)
-  //   }
-  // }
 })

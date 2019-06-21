@@ -6,13 +6,22 @@
       <router-link to="/">Upper Score</router-link> |
       <router-link to="/lower">Lower Score</router-link>
     </div>
-    <router-view/>
+    <h1>{{ players.find(p => p.id === activePlayerID).name }}</h1>
+    <router-view :player="players.find(p => p.id === activePlayerID)" />
   </div>
 </template>
 
 <script>
 import GameTable from '@/components/GameTable.vue'
+import { mapState } from 'vuex'
+
 export default {
+  computed: {
+    ...mapState([
+      'activePlayerID',
+      'players'
+    ])
+  },
   components: {
     GameTable
   }
