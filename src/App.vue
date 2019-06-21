@@ -1,29 +1,16 @@
 <template>
   <div id="app">
     <h1 class="title">TRISTZEE</h1>
-    <GameTable />
-    <div id="nav">
-      <router-link to="/">Upper Score</router-link> |
-      <router-link to="/lower">Lower Score</router-link>
-    </div>
-    <h1>{{ players.find(p => p.id === activePlayerID).name }}</h1>
-    <router-view :player="players.find(p => p.id === activePlayerID)" />
+    <Game />
   </div>
 </template>
 
 <script>
-import GameTable from '@/components/GameTable.vue'
-import { mapState } from 'vuex'
+import Game from '@/components/Game.vue'
 
 export default {
-  computed: {
-    ...mapState([
-      'activePlayerID',
-      'players'
-    ])
-  },
   components: {
-    GameTable
+    Game
   }
 }
 </script>
@@ -39,7 +26,7 @@ h1 .title {
   text-align: center;
   color: #2c3e50;
 }
-#nav {
+/* #nav {
   margin-top: 20px;
 }
 
@@ -50,5 +37,5 @@ h1 .title {
 
 #nav a.router-link-exact-active {
   color: #42b983;
-}
+} */
 </style>
