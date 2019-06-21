@@ -57,7 +57,6 @@ export default {
 computed: {
     ...mapState([
         'dice',
-        'heldDice',
         'rollNumber'
     ]),
     totalUpperPoints () {
@@ -84,7 +83,7 @@ methods: {
     },
     kindScore (number) {
         if (this.rollNumber > 1) {
-            const allDiceValues = this.dice.concat(this.heldDice)
+            const allDiceValues = this.dice
                 .map(d => d.value)
             const arr = [1, 2, 3, 4, 5, 6]
             const newArr = []
@@ -102,7 +101,7 @@ methods: {
     },
     fullHouseScore () {
         if (this.rollNumber > 1) {
-            const allDiceValues = this.dice.concat(this.heldDice)
+            const allDiceValues = this.dice
                 .map(d => d.value)
             const arr = [1, 2, 3, 4, 5, 6]
             const newArr = []
@@ -114,7 +113,7 @@ methods: {
     },
     straightScore (num) {
         if (this.rollNumber > 1) {
-            const allDiceValues = this.dice.concat(this.heldDice)
+            const allDiceValues = this.dice
                 .map(d => d.value)
                 .sort((a, b) => a-b)
             const uniques = Array.from(new Set(allDiceValues))

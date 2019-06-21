@@ -58,26 +58,30 @@ export default new Vuex.Store({
     dice : [
       {
         id : 1,
-        value : 1
+        value : 1,
+        held : false
       },
       {
         id : 2,
-        value : 2
+        value : 2,
+        held : false
       },
       {
         id : 3,
-        value : 3
+        value : 3,
+        held : false
       },
       {
         id : 4,
-        value : 4
+        value : 4,
+        held : false
       },
       {
         id : 5,
-        value : 5
+        value : 5,
+        held : false
       }
     ],
-    heldDice: [],
     rollNumber : 1
   },
   mutations: {
@@ -121,17 +125,13 @@ export default new Vuex.Store({
         }
       ]
     },
-    holdDie (state, payload) {
+    holdUnholdDie (state, payload) {
       if (state.rollNumber > 1) {
         const die = state.dice.find(d => d.id === payload.id)
-        state.heldDice.push(die)
-        state.dice.splice(state.dice.indexOf(payload), 1)
+        const dieIndex = state.dice.indexOf(die)
+        const held = die.held
+        Vue.set(state.dice[dieIndex], 'held', !held)
       }
-    },
-    unholdDie (state, payload) {
-      const die = state.heldDice.find(d => d.id === payload.id)
-      state.dice.push(die)
-      state.heldDice.splice(state.heldDice.indexOf(payload), 1)
     }
   },
   actions: {
