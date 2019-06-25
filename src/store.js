@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import initial from './store/initialState'
+import router from './router'
 
 Vue.use(Vuex)
 
@@ -129,7 +130,7 @@ export default new Vuex.Store({
     newGame ({ commit }) {
       commit('resetState')
     },
-    addScore ({ state, commit, dispatch }, { field, value, id }) {
+    addScore ({ state, dispatch }, { field, value, id }) {
       const player = state.players.find(p => p.id === id)
       const playerIndex = state.players.indexOf(player)
       const score = player.score[field]
@@ -144,7 +145,6 @@ export default new Vuex.Store({
         state.rollNumber > 1 ? Vue.set(state.players[playerIndex].score, field, value) : ''
       }
       dispatch('switchTurns')
-      commit('resetRoll')
     },
     createPlayer ({ state }, name) {
       // const newPlayer = {...state.playerTemplate}
@@ -155,12 +155,14 @@ export default new Vuex.Store({
       newPlayer.name = name ? name : 'Derp-Derp'
       state.players.push(newPlayer)
     },
-    switchTurns ({ state }) {
+    switchTurns ({ state, commit }) {
       const players = state.players.map(p => p.id)
       state.activePlayerIndex++
       setTimeout(()=>{
         state.activePlayerIndex = state.activePlayerIndex % players.length
         state.activePlayerID = players[state.activePlayerIndex]
+        commit('resetRoll')
+        router.push('/')
       }, 1000)
     },
   }
