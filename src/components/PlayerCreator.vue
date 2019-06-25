@@ -1,6 +1,6 @@
 <template>
     <div class="new-player">
-        <input type="text" v-model="name" />
+        <input type="text" v-model="name" @keyup.enter="createPlayerReset(name)" />
         <button class="create-player-button" @click="createPlayerReset(name)">Create Player</button>
         <button @click="startGame" v-show="players.length">Start Game</button>
         <div class="players">
