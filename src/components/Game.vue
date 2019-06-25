@@ -3,7 +3,7 @@
     <PlayerCreator v-if="!gameRunning" />
     <div v-else>
       <Dice />
-      <button class="btn" @click="rollDice">Roll Dice</button>
+      <button class="btn" @click="rollDice(10)">Roll Dice</button>
       <button class="btn" @click="newGame">New Game</button>
       <div id="nav">
         <router-link to="/">Upper Score</router-link> |
@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import { mapState, mapMutations, mapActions } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 import Dice from '@/components/Dice'
 import PlayerCreator from '@/components/PlayerCreator'
 
@@ -50,12 +50,17 @@ export default {
     }
   },
   methods: {
-    ...mapMutations([
+    // ...mapMutations([
+    // ]),
+    ...mapActions([
+      'newGame',
       'rollDice'
     ]),
-    ...mapActions([
-      'newGame'
-    ])
+    // startRolling () {
+    //   setInterval(() => {
+    //     this.rollDice()
+    //   }, 30)
+    // }
   }
 }
 </script>

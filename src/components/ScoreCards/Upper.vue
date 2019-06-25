@@ -1,28 +1,46 @@
 <template>
     <div class="score-sheet">
         <div class="score-item">Ones</div>
-        <div class="score-item" @click="addScore({'field':'one', 'id': player.id, 'value':potentialScore(1)})">
-            <span class="score" :class="[{'hidden': player.score.one === null}]">{{ displayScore('one', 1) }}</span>
+        <div 
+            class="score-item"
+            :class="[{'potential-score': player.score.one === null && rollNumber > 1}]"
+            @click="addScore({'field':'one', 'id': player.id, 'value':potentialScore(1)})">
+                <span class="score">{{ displayScore('one', 1) }}</span>
         </div>
         <div class="score-item">Twos</div>
-        <div class="score-item" @click="addScore({'field':'two', 'id': player.id, 'value':potentialScore(2)})">
-            <span class="score" :class="[{'hidden': player.score.two === null}]">{{ displayScore('two', 2) }}</span>
+        <div 
+            class="score-item" 
+            :class="[{'potential-score': player.score.two === null && rollNumber > 1}]" 
+            @click="addScore({'field':'two', 'id': player.id, 'value':potentialScore(2)})">
+                <span class="score">{{ displayScore('two', 2) }}</span>
         </div>
         <div class="score-item">Threes</div>
-        <div class="score-item" @click="addScore({'field':'three', 'id': player.id, 'value':potentialScore(3)})">
-            <span class="score" :class="[{'hidden': player.score.three === null}]">{{ displayScore('three', 3) }}</span>
+        <div
+            class="score-item"
+            :class="[{'potential-score': player.score.three === null && rollNumber > 1}]"
+            @click="addScore({'field':'three', 'id': player.id, 'value':potentialScore(3)})">
+                <span class="score">{{ displayScore('three', 3) }}</span>
         </div>
         <div class="score-item">Fours</div>
-        <div class="score-item" @click="addScore({'field':'four', 'id': player.id, 'value':potentialScore(4)})">
-            <span class="score" :class="[{'hidden': player.score.four === null}]">{{ displayScore('four', 4) }}</span>
+        <div
+            class="score-item"
+            :class="[{'potential-score': player.score.four === null && rollNumber > 1}]"
+            @click="addScore({'field':'four', 'id': player.id, 'value':potentialScore(4)})">
+                <span class="score">{{ displayScore('four', 4) }}</span>
         </div>
         <div class="score-item">Fives</div>
-        <div class="score-item" @click="addScore({'field':'five', 'id': player.id, 'value':potentialScore(5)})">
-            <span class="score" :class="[{'hidden': player.score.five === null}]">{{ displayScore('five', 5) }}</span>
+        <div
+            class="score-item"
+            :class="[{'potential-score': player.score.five === null && rollNumber > 1}]"
+            @click="addScore({'field':'five', 'id': player.id, 'value':potentialScore(5)})">
+                <span class="score">{{ displayScore('five', 5) }}</span>
         </div>
         <div class="score-item">Sixes</div>
-        <div class="score-item" @click="addScore({'field':'six', 'id': player.id, 'value':potentialScore(6)})">
-            <span class="score" :class="[{'hidden': player.score.six === null}]">{{ displayScore('six', 6) }}</span>
+        <div
+            class="score-item"
+            :class="[{'potential-score': player.score.six === null && rollNumber > 1}]"
+            @click="addScore({'field':'six', 'id': player.id, 'value':potentialScore(6)})">
+                <span class="score">{{ displayScore('six', 6) }}</span>
         </div>
         <div class="score-item">Total Score</div>
         <div class="score-item">
@@ -50,7 +68,8 @@ export default {
 computed: {
     ...mapState([
         'dice',
-        'rollNumber'
+        'rollNumber',
+        'rolling'
     ]),
     totalUpperPoints () {
         return this.player.score.upperBonus + this.totalPoints()
@@ -69,7 +88,7 @@ methods: {
     displayScore (field, num) {
         if (this.player.score[field] === 0 || this.player.score[field]) {
             return this.player.score[field]
-        } else {
+        } else if (!this.rolling){
             return this.potentialScore(num)
         }
     },
@@ -89,12 +108,14 @@ methods: {
 </script>
 
 <style scoped>
-.hidden:hover {
-    opacity: 1;
-    color: darkgreen;
+.potential-score{
+    background-color: lightgreen;
+    animation-name: color;
+    animation-duration: 1.2s;
+    animation-iteration-count: infinite;
 }
-.hidden {
-    opacity: 0;
+.potential-score span{
+    color: gray;
 }
 .score {
     cursor: pointer;
@@ -118,5 +139,17 @@ methods: {
 }
 .input {
     cursor: pointer;
+}
+
+@keyframes color {
+  0% {
+    background-color: lightgreen;
+  }
+  50% {
+    background-color: green;
+  }
+  100% {
+    background-color: lightgreen;
+  }
 }
 </style>

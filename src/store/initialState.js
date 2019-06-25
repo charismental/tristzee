@@ -52,7 +52,8 @@ const state = () => ({
         held : false
       }
     ],
-    rollNumber : 1
+    rollNumber : 1,
+    rolling : false
   })
   
   export default { state: state() }

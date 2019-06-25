@@ -1,36 +1,60 @@
 <template>
     <div class="score-sheet">
         <div class="score-item">3 of a kind</div>
-        <div class="score-item" @click="addScore({'field':'threeKind', 'id': player.id, 'value':kindScore(3)})">
-            <span class="score" :class="[{'hidden': player.score.threeKind === null}]">{{ displayScore('threeKind') || kindScore(3) }}</span>
+        <div
+            class="score-item"
+            :class="[{'potential-score': player.score.threeKind === null && rollNumber > 1}]"
+            @click="addScore({'field':'threeKind', 'id': player.id, 'value':kindScore(3)})">
+                <span class="score">{{ displayScore('threeKind') || kindScore(3) }}</span>
         </div>
         <div class="score-item">4 of a kind</div>
-        <div class="score-item" @click="addScore({'field':'fourKind', 'id': player.id, 'value':kindScore(4)})">
-            <span class="score" :class="[{'hidden': player.score.fourKind === null}]">{{ displayScore('fourKind') || kindScore(4) }}</span>
+        <div
+            class="score-item"
+            :class="[{'potential-score': player.score.fourKind === null && rollNumber > 1}]"
+            @click="addScore({'field':'fourKind', 'id': player.id, 'value':kindScore(4)})">
+                <span class="score">{{ displayScore('fourKind') || kindScore(4) }}</span>
         </div>
         <div class="score-item">Full House</div>
-        <div class="score-item" @click="addScore({'field':'fullHouse', 'id': player.id, 'value':fullHouseScore()})">
-            <span class="score" :class="[{'hidden': player.score.fullHouse === null}]">{{ displayScore('fullHouse') || fullHouseScore() }}</span>
+        <div
+            class="score-item"
+            :class="[{'potential-score': player.score.fullHouse === null && rollNumber > 1}]"
+            @click="addScore({'field':'fullHouse', 'id': player.id, 'value':fullHouseScore()})">
+                <span class="score">{{ displayScore('fullHouse') || fullHouseScore() }}</span>
         </div>
         <div class="score-item">Small Straight</div>
-        <div class="score-item" @click="addScore({'field':'lowStraight', 'id': player.id, 'value':straightScore(4)})">
-            <span class="score" :class="[{'hidden': player.score.lowStraight === null}]">{{ displayScore('lowStraight') || straightScore(4) }}</span>
+        <div
+            class="score-item"
+            :class="[{'potential-score': player.score.lowStraight === null && rollNumber > 1}]"
+            @click="addScore({'field':'lowStraight', 'id': player.id, 'value':straightScore(4)})">
+                <span class="score">{{ displayScore('lowStraight') || straightScore(4) }}</span>
         </div>
         <div class="score-item">Large Straight</div>
-        <div class="score-item" @click="addScore({'field':'highStraight', 'id': player.id, 'value':straightScore(5)})">
-            <span class="score" :class="[{'hidden': player.score.highStraight === null}]">{{ displayScore('highStraight') || straightScore(5) }}</span>
+        <div
+            class="score-item"
+            :class="[{'potential-score': player.score.highStraight === null && rollNumber > 1}]"
+            @click="addScore({'field':'highStraight', 'id': player.id, 'value':straightScore(5)})">
+                <span class="score">{{ displayScore('highStraight') || straightScore(5) }}</span>
         </div>
         <div class="score-item">Tristzee</div>
-        <div class="score-item" @click="addScore({'field':'tristzee', 'id': player.id, 'value':kindScore(5)})">
-            <span class="score" :class="[{'hidden': player.score.tristzee === null}]">{{ displayScore('tristzee') || kindScore(5) }}</span>
+        <div
+            class="score-item"
+            :class="[{'potential-score': player.score.tristzee === null && rollNumber > 1}]"
+            @click="addScore({'field':'tristzee', 'id': player.id, 'value':kindScore(5)})">
+                <span class="score">{{ displayScore('tristzee') || kindScore(5) }}</span>
         </div>
         <div class="score-item">Chance</div>
-        <div class="score-item" @click="addScore({'field':'chance', 'id': player.id, 'value':kindScore(1)})">
-            <span class="score" :class="[{'hidden': player.score.chance === null}]">{{ displayScore('chance') || kindScore(1) }}</span>
+        <div
+            class="score-item"
+            :class="[{'potential-score': player.score.chance === null && rollNumber > 1}]"
+            @click="addScore({'field':'chance', 'id': player.id, 'value':kindScore(1)})">
+                <span class="score">{{ displayScore('chance') || kindScore(1) }}</span>
         </div>
         <div class="score-item">Tristzee Bonus</div>
-        <div class="score-item" @click="addScore({'field':'tristzeeBonus', 'id': player.id, 'value':tristzeeBonusScore()})">
-            <span class="score" :class="[{'hidden': player.score.tristzeeBonus === null}]">{{ player.score.tristzeeBonus }}</span>
+        <div
+            class="score-item"
+            :class="[{'potential-score': player.score.tristzeeBonus === null && tristzeeBonusScore() === 100}]"
+            @click="addScore({'field':'tristzeeBonus', 'id': player.id, 'value':tristzeeBonusScore()})">
+                <span class="score">{{ player.score.tristzeeBonus }}</span>
         </div>
         <div class="score-item">Total of Lower Section</div>
         <div class="score-item">
@@ -57,7 +81,8 @@ export default {
 computed: {
     ...mapState([
         'dice',
-        'rollNumber'
+        'rollNumber',
+        'rolling'
     ]),
     totalUpperPoints () {
         const score = this.player.score
@@ -154,12 +179,14 @@ methods: {
 </script>
 
 <style scoped>
-.hidden:hover {
-    opacity: 1;
-    color: darkgreen;
+.potential-score{
+    background-color: lightgreen;
+    animation-name: color;
+    animation-duration: 1.2s;
+    animation-iteration-count: infinite;
 }
-.hidden {
-    opacity: 0;
+.potential-score span{
+    color: gray;
 }
 .score {
     cursor: pointer;
@@ -183,5 +210,17 @@ methods: {
 }
 .input {
     cursor: pointer;
+}
+
+@keyframes color {
+  0% {
+    background-color: lightgreen;
+  }
+  50% {
+    background-color: green;
+  }
+  100% {
+    background-color: lightgreen;
+  }
 }
 </style>

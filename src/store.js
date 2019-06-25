@@ -62,9 +62,13 @@ export default new Vuex.Store({
         held : false
       }
     ],
-    rollNumber : 1
+    rollNumber : 1,
+    rolling : false
   },
   mutations: {
+    setRolling(state, payload) {
+      state.rolling = payload
+    },
     resetState(state) {
       const initialState = JSON.stringify(state.initial)
       this.replaceState(Object.assign(state, JSON.parse(initialState)))
@@ -79,11 +83,14 @@ export default new Vuex.Store({
     startGame (state) {
       state.gameRunning = true
     },
-    rollDice (state) {
-      if (state.rollNumber <= 3) {
-        state.dice.map(d => !d.held ? d.value = Math.floor((Math.random() * 6) + 1) : null)
-        state.rollNumber++
-      }
+    incrementRollNumber (state) {
+      state.rollNumber++
+    },
+    randomizeDice (state) {
+      // if (state.rollNumber <= 3) {
+      state.dice.map(d => !d.held ? d.value = Math.floor((Math.random() * 6) + 1) : null)
+      //   state.rollNumber++
+      // }
     },
     addUpperBonus (state, id) {
       const player = state.players.find(p => p.id === id)
@@ -106,6 +113,19 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    rollDice ({ commit, state, dispatch }, num) {
+      if (state.rollNumber <= 3) {
+        commit('setRolling', true)
+        commit('randomizeDice')
+        num--
+        if (num < 1) {
+          commit('incrementRollNumber')
+          commit('setRolling', false)
+          return
+        }
+        setTimeout(() => dispatch('rollDice', num), 50)
+      }
+    },
     newGame ({ commit }) {
       commit('resetState')
     },
