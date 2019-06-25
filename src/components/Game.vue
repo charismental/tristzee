@@ -4,7 +4,7 @@
     <div v-else>
       <Dice />
       <button class="btn" @click="rollDice">Roll Dice</button>
-      <button class="btn" @click="resetRoll">Reset</button>
+      <button class="btn" @click="newGame">New Game</button>
       <div id="nav">
         <router-link to="/">Upper Score</router-link> |
         <router-link to="/lower">Lower Score</router-link>
@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from 'vuex'
+import { mapState, mapMutations, mapActions } from 'vuex'
 import Dice from '@/components/Dice'
 import PlayerCreator from '@/components/PlayerCreator'
 
@@ -51,8 +51,10 @@ export default {
   },
   methods: {
     ...mapMutations([
-      'rollDice',
-      'resetRoll'
+      'rollDice'
+    ]),
+    ...mapActions([
+      'newGame'
     ])
   }
 }

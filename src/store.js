@@ -1,9 +1,13 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import initial from './store/initialState'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
+  modules: {
+    initial
+  },
   state: {
     gameRunning: false,
     activePlayerIndex: 0,
@@ -61,7 +65,11 @@ export default new Vuex.Store({
     rollNumber : 1
   },
   mutations: {
-    initialiseStore(state) {
+    resetState(state) {
+      const initialState = JSON.stringify(state.initial)
+      this.replaceState(Object.assign(state, JSON.parse(initialState)))
+    },
+    initializeStore(state) {
 			if(localStorage.getItem('store')) {
 				this.replaceState(
 					Object.assign(state, JSON.parse(localStorage.getItem('store')))
@@ -98,6 +106,9 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    newGame ({ commit }) {
+      commit('resetState')
+    },
     addScore ({ state, commit, dispatch }, { field, value, id }) {
       const player = state.players.find(p => p.id === id)
       const playerIndex = state.players.indexOf(player)
