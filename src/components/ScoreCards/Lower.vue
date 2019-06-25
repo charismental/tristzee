@@ -5,49 +5,49 @@
             class="score-item"
             :class="[{'potential-score': player.score.threeKind === null && rollNumber > 1}]"
             @click="addScore({'field':'threeKind', 'id': player.id, 'value':kindScore(3)})">
-                <span class="score">{{ displayScore('threeKind') || kindScore(3) }}</span>
+                <span class="score">{{ displayScore('threeKind') || isRolling(kindScore(3)) }}</span>
         </div>
         <div class="score-item">4 of a kind</div>
         <div
             class="score-item"
             :class="[{'potential-score': player.score.fourKind === null && rollNumber > 1}]"
             @click="addScore({'field':'fourKind', 'id': player.id, 'value':kindScore(4)})">
-                <span class="score">{{ displayScore('fourKind') || kindScore(4) }}</span>
+                <span class="score">{{ displayScore('fourKind') || isRolling(kindScore(4)) }}</span>
         </div>
         <div class="score-item">Full House</div>
         <div
             class="score-item"
             :class="[{'potential-score': player.score.fullHouse === null && rollNumber > 1}]"
             @click="addScore({'field':'fullHouse', 'id': player.id, 'value':fullHouseScore()})">
-                <span class="score">{{ displayScore('fullHouse') || fullHouseScore() }}</span>
+                <span class="score">{{ displayScore('fullHouse') || isRolling(fullHouseScore()) }}</span>
         </div>
         <div class="score-item">Small Straight</div>
         <div
             class="score-item"
             :class="[{'potential-score': player.score.lowStraight === null && rollNumber > 1}]"
             @click="addScore({'field':'lowStraight', 'id': player.id, 'value':straightScore(4)})">
-                <span class="score">{{ displayScore('lowStraight') || straightScore(4) }}</span>
+                <span class="score">{{ displayScore('lowStraight') || isRolling(straightScore(4)) }}</span>
         </div>
         <div class="score-item">Large Straight</div>
         <div
             class="score-item"
             :class="[{'potential-score': player.score.highStraight === null && rollNumber > 1}]"
             @click="addScore({'field':'highStraight', 'id': player.id, 'value':straightScore(5)})">
-                <span class="score">{{ displayScore('highStraight') || straightScore(5) }}</span>
+                <span class="score">{{ displayScore('highStraight') || isRolling(straightScore(5)) }}</span>
         </div>
         <div class="score-item">Tristzee</div>
         <div
             class="score-item"
             :class="[{'potential-score': player.score.tristzee === null && rollNumber > 1}]"
             @click="addScore({'field':'tristzee', 'id': player.id, 'value':kindScore(5)})">
-                <span class="score">{{ displayScore('tristzee') || kindScore(5) }}</span>
+                <span class="score">{{ displayScore('tristzee') || isRolling(kindScore(5)) }}</span>
         </div>
         <div class="score-item">Chance</div>
         <div
             class="score-item"
             :class="[{'potential-score': player.score.chance === null && rollNumber > 1}]"
             @click="addScore({'field':'chance', 'id': player.id, 'value':kindScore(1)})">
-                <span class="score">{{ displayScore('chance') || kindScore(1) }}</span>
+                <span class="score">{{ displayScore('chance') || isRolling(kindScore(1)) }}</span>
         </div>
         <div class="score-item">Tristzee Bonus</div>
         <div
@@ -96,6 +96,11 @@ computed: {
     }
 },
 methods: {
+    isRolling (fun) {
+        if(!this.rolling) {
+            return fun
+        }
+    },
     displayScore (field) {
         if (this.player.score[field] === 0) {
             return '0'
