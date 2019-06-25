@@ -158,8 +158,10 @@ export default new Vuex.Store({
     switchTurns ({ state }) {
       const players = state.players.map(p => p.id)
       state.activePlayerIndex++
-      state.activePlayerIndex = state.activePlayerIndex % players.length
-      state.activePlayerID = players[state.activePlayerIndex]
+      setTimeout(()=>{
+        state.activePlayerIndex = state.activePlayerIndex % players.length
+        state.activePlayerID = players[state.activePlayerIndex]
+      }, 1000)
     },
   }
 })
