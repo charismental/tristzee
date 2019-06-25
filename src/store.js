@@ -152,7 +152,7 @@ export default new Vuex.Store({
       // what a weird way to have to deep clone an object...
       let newPlayer = JSON.parse(JSON.stringify(state.playerTemplate))
       newPlayer.id = state.players.length + 1
-      newPlayer.name = name
+      newPlayer.name = name ? name : 'Derp-Derp'
       state.players.push(newPlayer)
     },
     switchTurns ({ state }) {
