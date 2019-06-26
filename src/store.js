@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import initial from './store/initialState'
-import router from './router'
+// import router from './router'
 
 Vue.use(Vuex)
 
@@ -176,14 +176,14 @@ export default new Vuex.Store({
     },
     switchTurns ({ state, commit, dispatch }) {
       const players = state.players.map(p => p.id)
-      state.activePlayerIndex++
-      dispatch('playerGameOverCheck', state.activePlayerIndex)
-      // setTimeout(()=>{
+      setTimeout(()=>{
+        state.activePlayerIndex++
+        dispatch('playerGameOverCheck', state.activePlayerIndex)
         state.activePlayerIndex = state.activePlayerIndex % players.length
         state.activePlayerID = players[state.activePlayerIndex]
         commit('resetRoll')
-        state.players.length > 1 ? router.push('/') : ''
-      // }, 1000)
+        // state.players.length > 1 ? router.push('/') : ''
+      }, 500)
     }
   },
   getters: {
