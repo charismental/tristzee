@@ -13,58 +13,59 @@ export default new Vuex.Store({
     gameRunning: false,
     activePlayerIndex: 0,
     activePlayerID: 1,
+    finishedPlayers: [],
     players: [],
     playerTemplate: 
       {
         id: null,
         name: '',
         score: {
-          one : null,
-          two : null,
-          three : null,
-          four : null,
-          five : null,
-          six : null,
-          upperBonus : null,
-          threeKind : null,
-          fourKind : null,
-          fullHouse : null,
-          lowStraight : null,
-          highStraight : null,
-          tristzee : null,
-          chance : null,
-          tristzeeBonus : null
+          one: null,
+          two: null,
+          three: null,
+          four: null,
+          five: null,
+          six: null,
+          upperBonus: null,
+          threeKind: null,
+          fourKind: null,
+          fullHouse: null,
+          lowStraight: null,
+          highStraight: null,
+          tristzee: null,
+          chance: null,
+          tristzeeBonus: null
         }
       },
-    dice : [
+    dice: [
       {
-        id : 1,
-        value : 1,
-        held : false
+        id: 1,
+        value: 1,
+        held: false
       },
       {
-        id : 2,
-        value : 2,
-        held : false
+        id: 2,
+        value: 2,
+        held: false
       },
       {
-        id : 3,
-        value : 3,
-        held : false
+        id: 3,
+        value: 3,
+        held: false
       },
       {
-        id : 4,
-        value : 4,
-        held : false
+        id: 4,
+        value: 4,
+        held: false
       },
       {
-        id : 5,
-        value : 5,
-        held : false
+        id: 5,
+        value: 5,
+        held: false
       }
     ],
-    rollNumber : 1,
-    rolling : false
+    rollNumber: 1,
+    rolling: false
   },
   mutations: {
     setRolling(state, payload) {
@@ -81,22 +82,19 @@ export default new Vuex.Store({
 				)
 			}
 		},
-    startGame (state) {
-      state.gameRunning = true
+    gameRunningToggle (state, bool) {
+      state.gameRunning = bool
     },
     incrementRollNumber (state) {
       state.rollNumber++
     },
     randomizeDice (state) {
-      // if (state.rollNumber <= 3) {
       state.dice.map(d => !d.held ? d.value = Math.floor((Math.random() * 6) + 1) : null)
-      //   state.rollNumber++
-      // }
     },
     addUpperBonus (state, id) {
       const player = state.players.find(p => p.id === id)
       const playerIndex = state.players.indexOf(player)
-      Vue.set(state.players[playerIndex].score, 'upperBonus', 35)
+      state.players[playerIndex].score.upperBonus === null ? Vue.set(state.players[playerIndex].score, 'upperBonus', 35) : ''
     },
     resetRoll (state) {
       state.rollNumber = 1;
@@ -114,6 +112,26 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    removePlayer({ state, getters }, id) {
+      const player = state.players.find(p => p.id === id)
+      player.grandTotal = getters.grandTotal(id)
+      state.finishedPlayers.push(player)
+      const playerIndex = state.players.indexOf(player)
+      state.players.splice(playerIndex, 1)
+    },
+    playerGameOverCheck ({ state, commit, dispatch }, id) {
+      const player = state.players.find(p => p.id === id)
+      const score = JSON.parse(JSON.stringify(player.score))
+      delete score.upperBonus
+      delete score.tristzeeBonus
+      const shouldHaveMoreTurns = Object.values(score).some(x => x === null)
+      if (!shouldHaveMoreTurns && state.players.length > 1) {
+        dispatch('removePlayer', id)
+      } else if (!shouldHaveMoreTurns) {
+        commit('gameRunningToggle', false)
+        dispatch('removePlayer', id)
+      }
+    },
     rollDice ({ commit, state, dispatch }, num) {
       if (state.rollNumber <= 3) {
         commit('setRolling', true)
@@ -124,13 +142,13 @@ export default new Vuex.Store({
           commit('setRolling', false)
           return
         }
-        setTimeout(() => dispatch('rollDice', num), 50)
+        setTimeout(() => dispatch('rollDice', num), 100)
       }
     },
     newGame ({ commit }) {
       commit('resetState')
     },
-    addScore ({ state, dispatch }, { field, value, id }) {
+    addScore ({ state, dispatch, getters, commit }, { field, value, id }) {
       const player = state.players.find(p => p.id === id)
       const playerIndex = state.players.indexOf(player)
       const score = player.score[field]
@@ -143,6 +161,7 @@ export default new Vuex.Store({
         state.players[playerIndex].score.tristzeeBonus += 100
       } else if (!score) {
         state.rollNumber > 1 ? Vue.set(state.players[playerIndex].score, field, value) : ''
+        getters.upperTotal(id) >= 63 ? commit('addUpperBonus', id) : ''
       }
       dispatch('switchTurns')
     },
@@ -155,15 +174,41 @@ export default new Vuex.Store({
       newPlayer.name = name ? name : 'Derp-Derp'
       state.players.push(newPlayer)
     },
-    switchTurns ({ state, commit }) {
+    switchTurns ({ state, commit, dispatch }) {
       const players = state.players.map(p => p.id)
       state.activePlayerIndex++
-      setTimeout(()=>{
+      dispatch('playerGameOverCheck', state.activePlayerIndex)
+      // setTimeout(()=>{
         state.activePlayerIndex = state.activePlayerIndex % players.length
         state.activePlayerID = players[state.activePlayerIndex]
         commit('resetRoll')
-        router.push('/')
-      }, 1000)
+        state.players.length > 1 ? router.push('/') : ''
+      // }, 1000)
+    }
+  },
+  getters: {
+    upperTotal: state => (id) => {
+      const player = state.players.find(p => p.id === id)
+      const score = player.score
+      const total = score.one + score.two + score.three + score.four + score.five + score.six
+      return total
     },
+    upperTotalWithBonus: (state, getters) => (id) => {
+      const player = state.players.find(p => p.id === id)
+      return getters.upperTotal(id) + player.score.upperBonus
+    },
+    lowerTotal: state => (id) => {
+      const player = state.players.find(p => p.id === id)
+      const score = player.score
+      const total = score.threeKind + score.fourKind + score.fullHouse + score.lowStraight + score.highStraight + score.tristzee + score.chance + score.tristzeeBonus
+      return total
+    },
+    grandTotal: state => (id) => {
+      const player = state.players.find(p => p.id === id)
+      const score = player.score
+      const total = Object.values(score)
+        .reduce((a,b) => a + b, 0)
+      return total
+    }
   }
 })
