@@ -58,42 +58,37 @@
         </div>
         <div class="score-item">Total of Lower Section</div>
         <div class="score-item">
-            <span class="score">{{ totalLowerPoints }}</span>
+            <span class="score">{{ lowerTotal(player.id) }}</span>
         </div>
         <div class="score-item">Total of Upper Section</div>
         <div class="score-item">
-            <span class="score">{{ totalUpperPoints }}</span>
+            <span class="score">{{ upperTotalWithBonus(player.id) }}</span>
         </div>
         <div class="score-item">Grand Total</div>
         <div class="score-item">
-            <span class="score">{{ totalLowerPoints + totalUpperPoints}}</span>
+            <span class="score">{{ grandTotal(player.id) }}</span>
         </div>
     </div>
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapActions, mapGetters } from 'vuex'
 
 export default {
     props: [
         'player'
     ],
 computed: {
+    ...mapGetters([
+        'upperTotalWithBonus',
+        'lowerTotal',
+        'grandTotal'
+    ]),
     ...mapState([
         'dice',
         'rollNumber',
         'rolling'
-    ]),
-    totalUpperPoints () {
-        const score = this.player.score
-        const total = score.one + score.two + score.three + score.four + score.five + score.six + score.upperBonus
-        return total
-    },
-    totalLowerPoints () {
-        const score = this.player.score
-        const total = score.threeKind + score.fourKind + score.fullHouse + score.lowStraight + score.highStraight + score.tristzee + score.chance + score.tristzeeBonus
-        return total
-    }
+    ])
 },
 methods: {
     isRolling (fun) {
@@ -185,9 +180,9 @@ methods: {
 
 <style scoped>
 .potential-score{
-    background-color: lightgreen;
+    background-color: lightblue;
     animation-name: color;
-    animation-duration: 1.2s;
+    animation-duration: 1.6s;
     animation-iteration-count: infinite;
 }
 .potential-score span{
@@ -219,13 +214,13 @@ methods: {
 
 @keyframes color {
   0% {
-    background-color: lightgreen;
+    background-color: lightblue;
   }
   50% {
-    background-color: green;
+    background-color: #00CCFF;
   }
   100% {
-    background-color: lightgreen;
+    background-color: lightblue;
   }
 }
 </style>

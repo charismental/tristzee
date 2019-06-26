@@ -44,7 +44,9 @@
         </div>
         <div class="score-item">Total Score</div>
         <div class="score-item">
-            <span class="score">{{ totalPoints() }}</span>
+            <!-- <span class="score">{{ totalPoints() }}</span> -->
+            <span class="score">{{ upperTotal(player.id) }}</span>
+
         </div>
         <div class="score-item">Bonus</div>
         <div class="score-item">
@@ -52,39 +54,34 @@
         </div>
         <div class="score-item">Total of Upper Section</div>
         <div class="score-item">
-            <span class="score">{{ totalUpperPoints }}</span>
+            <span class="score">{{ upperTotalWithBonus(player.id) }}</span>
         </div>
 
     </div>
 </template>
 
 <script>
-import { mapState, mapActions, mapMutations } from 'vuex'
+import { mapState, mapActions, mapMutations, mapGetters } from 'vuex'
 
 export default {
     props: [
         'player'
     ],
 computed: {
+    ...mapGetters([
+        'upperTotal',
+        'upperTotalWithBonus'
+    ]),
     ...mapState([
         'dice',
         'rollNumber',
         'rolling'
-    ]),
-    totalUpperPoints () {
-        return this.player.score.upperBonus + this.totalPoints()
-    }
+    ])
 },
 methods: {
     ...mapMutations([
         'addUpperBonus'
     ]),
-    totalPoints () {
-        const score = this.player.score
-        const total = score.one + score.two + score.three + score.four + score.five + score.six
-        total >= 63 ? this.addUpperBonus(this.player.id) : ''
-        return total
-    },
     displayScore (field, num) {
         if (this.player.score[field] === 0 || this.player.score[field]) {
             return this.player.score[field]
@@ -109,9 +106,9 @@ methods: {
 
 <style scoped>
 .potential-score{
-    background-color: lightgreen;
+    background-color: lightblue;
     animation-name: color;
-    animation-duration: 1.2s;
+    animation-duration: 1.6s;
     animation-iteration-count: infinite;
 }
 .potential-score span{
@@ -143,13 +140,13 @@ methods: {
 
 @keyframes color {
   0% {
-    background-color: lightgreen;
+    background-color: lightblue;
   }
   50% {
-    background-color: green;
+    background-color: #00CCFF;
   }
   100% {
-    background-color: lightgreen;
+    background-color: lightblue;
   }
 }
 </style>
