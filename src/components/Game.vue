@@ -1,9 +1,9 @@
 <template>
   <div class="game">
-    <PlayerCreator v-if="!gameRunning" />
-    <div v-else>
+    <PlayerCreator v-show="!gameRunning && !finishedPlayers.length"/>
+    <div v-if="gameRunning">
       <Dice />
-      <button class="btn" @click="rollDice(10)">Roll Dice</button>
+      <button class="btn" @click="rollDice(8)">Roll Dice</button>
       <button class="btn" @click="newGame">New Game</button>
       <div id="nav">
         <router-link to="/">Upper Score</router-link> |
@@ -15,26 +15,31 @@
       </div>
       <router-view :player="activePlayer" />
     </div>
+    <FinishedPlayers v-show="finishedPlayers.length" />
   </div>
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapMutations, mapActions } from 'vuex'
 import Dice from '@/components/Dice'
 import PlayerCreator from '@/components/PlayerCreator'
+import FinishedPlayers from '@/components/FinishedPlayers'
 
 export default {
   name: 'Game',
   components: {
     Dice,
-    PlayerCreator
+    PlayerCreator,
+    FinishedPlayers
   },
   computed: {
     ...mapState([
       'activePlayerID',
+      'finishedPlayers',
       'players',
       'rollNumber',
-      'gameRunning'
+      'gameRunning',
+      'finishedPlayers'
     ]),
     activePlayer () {
       return this.players.find(p => p.id === this.activePlayerID)
@@ -50,17 +55,13 @@ export default {
     }
   },
   methods: {
-    // ...mapMutations([
-    // ]),
+    ...mapMutations([
+      'removePlayer'
+    ]),
     ...mapActions([
       'newGame',
       'rollDice'
-    ]),
-    // startRolling () {
-    //   setInterval(() => {
-    //     this.rollDice()
-    //   }, 30)
-    // }
+    ])
   }
 }
 </script>
@@ -85,6 +86,7 @@ export default {
 }
 .btn {
   margin-top: 20px;
+  margin-right: 20px;
   cursor: pointer;
 }
 </style>
