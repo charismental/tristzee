@@ -2,7 +2,7 @@
     <div class="new-player">
         <input type="text" v-model="name" @keyup.enter="createPlayerReset(name)" />
         <button class="create-player-button" @click="createPlayerReset(name)">Create Player</button>
-        <button @click="startGame" v-show="players.length">Start Game</button>
+        <button @click="gameRunningToggle(true)" v-show="players.length">Start Game</button>
         <div class="players">
             <ul class="player-list">
                 <li v-for="player in players" :key="player.id">{{ player.name }}</li>
@@ -26,7 +26,7 @@ export default {
     },
     methods : {
         ...mapMutations([
-            'startGame'
+            'gameRunningToggle'
         ]),
         createPlayerReset (name) {
             this.$store.dispatch('createPlayer', name)
