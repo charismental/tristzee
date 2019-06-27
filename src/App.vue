@@ -1,13 +1,22 @@
 <template>
-  <div id="app">
+  <!-- <div id="app">
     <h1 class="title">TRISTZEE</h1>
     <Game />
-  </div>
-</template>
+  </div> -->
+  <v-app>
+    <v-content>
+      <v-toolbar dark>
+        <v-toolbar-title>TRISTZEE</v-toolbar-title>
+      </v-toolbar>
+      <v-container>
+        <Game />
+      </v-container>
+    </v-content>
+  </v-app>
+</template>s
 
 <script>
 import Game from '@/components/Game.vue'
-
 export default {
   components: {
     Game
@@ -29,12 +38,10 @@ h1 .title {
 /* #nav {
   margin-top: 20px;
 }
-
 #nav a {
   font-weight: bold;
   color: #2c3e50;
 }
-
 #nav a.router-link-exact-active {
   color: #42b983;
 } */

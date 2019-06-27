@@ -3,8 +3,8 @@
     <PlayerCreator v-show="!gameRunning && !finishedPlayers.length"/>
     <div v-if="gameRunning">
       <Dice />
-      <button class="btn" @click="rollDice(8)">Roll Dice</button>
-      <button class="btn" @click="newGame">New Game</button>
+      <v-btn class="btn" color="info" @click="rollDice(8)">Roll Dice</v-btn>
+      <v-btn class="btn" color="warning" @click="newGame">New Game</v-btn>
       <div id="nav">
         <router-link to="/">Upper Score</router-link> |
         <router-link to="/lower">Lower Score</router-link>

@@ -1,14 +1,33 @@
 <template>
-    <div class="new-player">
-        <input type="text" v-model="name" @keyup.enter="createPlayerReset(name)" />
-        <button class="create-player-button" @click="createPlayerReset(name)">Create Player</button>
-        <button @click="gameRunningToggle(true)" v-show="players.length">Start Game</button>
-        <div class="players">
-            <ul class="player-list">
-                <li v-for="player in players" :key="player.id">{{ player.name }}</li>
-            </ul>
-        </div>
-    </div>
+    <v-container class="new-player">
+        <v-layout>
+            <v-flex>
+                <v-text-field
+                    label="Name"
+                    v-model="name"
+                    @keyup.enter="createPlayerReset(name)"></v-text-field>
+            </v-flex>
+        </v-layout>
+        <v-layout>
+            <v-flex>
+                <v-btn 
+                    class="create-player-button"
+                    color="info"
+                    @click="createPlayerReset(name)">Create Player</v-btn>
+                <v-btn
+                    @click="gameRunningToggle(true)"
+                    color="error"
+                    v-show="players.length">Start Game</v-btn>
+            </v-flex>
+        </v-layout>
+        <v-layout>
+            <v-flex class="players">
+                <ul class="player-list">
+                    <li v-for="player in players" :key="player.id">{{ player.name }}</li>
+                </ul>
+            </v-flex>
+        </v-layout>
+    </v-container>
 </template>
 
 <script>
