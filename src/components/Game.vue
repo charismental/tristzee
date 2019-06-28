@@ -1,6 +1,11 @@
 <template>
   <div class="game">
-    <PlayerCreator v-show="!gameRunning && !finishedPlayers.length"/>
+    <v-layout row justify-center>
+      <v-dialog v-model="createPlayer" persistent max-width="400px">
+        <PlayerCreator />
+      </v-dialog>
+    </v-layout>
+    <!-- <PlayerCreator v-show="!gameRunning && !finishedPlayers.length"/> -->
     <div v-if="gameRunning">
       <Dice />
       <v-btn class="btn" color="info" @click="rollDice(8)">Roll Dice</v-btn>
@@ -27,6 +32,11 @@ import FinishedPlayers from '@/components/FinishedPlayers'
 
 export default {
   name: 'Game',
+  // data () {
+  //   return {
+  //     bool: true
+  //   }
+  // },
   components: {
     Dice,
     PlayerCreator,
@@ -41,6 +51,9 @@ export default {
       'gameRunning',
       'finishedPlayers'
     ]),
+    createPlayer () {
+      return !this.gameRunning ? true : false
+    },
     activePlayer () {
       return this.players.find(p => p.id === this.activePlayerID)
     },

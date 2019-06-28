@@ -1,33 +1,50 @@
 <template>
-    <v-container class="new-player">
-        <v-layout>
-            <v-flex>
+    <v-card class="elevation-12">
+        <v-toolbar dark color="primary">
+            <v-toolbar-title>Create Player</v-toolbar-title>
+            <v-spacer></v-spacer>
+        </v-toolbar>
+        <v-card-text>
+            <v-form @submit.prevent="createPlayerReset(name)">
                 <v-text-field
+                    prepend-icon="person"
+                    name="name"
                     label="Name"
                     v-model="name"
-                    @keyup.enter="createPlayerReset(name)"></v-text-field>
-            </v-flex>
-        </v-layout>
-        <v-layout>
-            <v-flex>
-                <v-btn 
-                    class="create-player-button"
-                    color="info"
-                    @click="createPlayerReset(name)">Create Player</v-btn>
-                <v-btn
-                    @click="gameRunningToggle(true)"
-                    color="error"
-                    v-show="players.length">Start Game</v-btn>
-            </v-flex>
-        </v-layout>
-        <v-layout>
-            <v-flex class="players">
-                <ul class="player-list">
-                    <li v-for="player in players" :key="player.id">{{ player.name }}</li>
-                </ul>
-            </v-flex>
-        </v-layout>
-    </v-container>
+                    type="text"></v-text-field>
+            </v-form>
+            <v-list>
+                <v-list-tile
+                    v-for="player in players"
+                    :key="player.id">
+                    <v-list-tile-content>
+                        <v-list-tile-title v-text="`Player ${player.id} - ${player.name}`"></v-list-tile-title>
+                    </v-list-tile-content>
+                    <v-list-tile-avatar>
+                        <!-- <img :src="player.avatar"> -->
+                    </v-list-tile-avatar>
+                </v-list-tile>
+            </v-list>
+        </v-card-text>
+        <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn
+                color="info"
+                @click="createPlayerReset(name)">Create</v-btn>
+            <v-btn
+                @click="gameRunningToggle(true)"
+                color="error"
+                v-show="players.length">Start Game</v-btn>
+        </v-card-actions>
+    </v-card>
+<!-- <v-content>
+        <v-container fluid fill-height>
+            <v-layout align-center justify-center>
+                <v-flex xs12 sm8 md4>
+                </v-flex>
+            </v-layout>
+        </v-container>
+    </v-content> -->
 </template>
 
 <script>
@@ -58,8 +75,5 @@ export default {
 <style>
 .create-player-button {
     margin-right: 15px;
-}
-.player-list {
-    list-style: none;
 }
 </style>

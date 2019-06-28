@@ -1,11 +1,7 @@
 <template>
-  <!-- <div id="app">
-    <h1 class="title">TRISTZEE</h1>
-    <Game />
-  </div> -->
   <v-app>
     <v-content>
-      <v-toolbar dark>
+      <v-toolbar>
         <v-toolbar-title>TRISTZEE</v-toolbar-title>
       </v-toolbar>
       <v-container>
@@ -17,6 +13,7 @@
 
 <script>
 import Game from '@/components/Game.vue'
+
 export default {
   components: {
     Game
