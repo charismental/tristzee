@@ -10,7 +10,7 @@
       <Dice />
       <v-btn class="btn" color="info" @click="rollDice(8)">Roll Dice</v-btn>
       <v-btn class="btn" color="warning" @click="newGame">New Game</v-btn>
-      <div id="nav">
+      <!-- <div id="nav">
         <router-link to="/">Upper Score</router-link> |
         <router-link to="/lower">Lower Score</router-link>
       </div>
@@ -18,7 +18,8 @@
         <span class="player-name">{{ activePlayer.name }} -</span>
         <span class="rolls-remaining">{{ rollsRemaining }}</span>
       </div>
-      <router-view :player="activePlayer" />
+      <router-view :player="activePlayer" /> -->
+      <ScoreCard />
     </div>
     <FinishedPlayers v-show="finishedPlayers.length" />
   </div>
@@ -27,6 +28,7 @@
 <script>
 import { mapState, mapMutations, mapActions } from 'vuex'
 import Dice from '@/components/Dice'
+import ScoreCard from '@/components/ScoreCard'
 import PlayerCreator from '@/components/PlayerCreator'
 import FinishedPlayers from '@/components/FinishedPlayers'
 
@@ -39,6 +41,7 @@ export default {
   // },
   components: {
     Dice,
+    ScoreCard,
     PlayerCreator,
     FinishedPlayers
   },
