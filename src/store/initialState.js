@@ -22,8 +22,7 @@ const state = () => ({
           lowStraight: null,
           highStraight: null,
           tristzee: null,
-          chance: null,
-          tristzeeBonus: null
+          chance: null
         }
       },
     dice: [
