@@ -431,23 +431,28 @@ export default {
     padding: 0 !important;
 }
 .score-icon {
-    font-size: 1.8em;
+    /* font-size: 1.8em; */
+    font-size: 2.2em;
     margin: 0 auto;
 }
 .score-input {
     display: inline-block;
     background-color: #ECEFF1;
-    height: 1.3em;
-    width: 30vw;
+    /* height: 1.3em;
+    width: 30vw; */
+    height: 1.7em;
+    width: 24vw;
     border-radius: 5px;
     position: relative;
 }
 .score {
-    font-size: 24px;
+    /* font-size: 24px; */
+    font-size: 32px;
     color: #263238;
     font-weight: 900;
     position: absolute;
-    top: 2%;
+    /* top: 2%; */
+    top: 11%;
     left: 10%;
 }
 .bonus-score {
@@ -455,7 +460,8 @@ export default {
     color: #263238;
     font-weight: 900;
     position: absolute;
-    top: 2%;
+    /* top: 2%; */
+    top: 12%;
     left: 4%;
 }
 @keyframes color {
@@ -466,8 +472,24 @@ export default {
     color: #006064;
   }
   100% {
-    color: #ECEFF1;
+    color: #eceff1;
   }
+}
+@media only screen and (min-height: 600px) {
+    .score-icon {
+        font-size: 2.6em;
+    }
+    .score-input {
+        height: 2em;
+    }
+    .score {
+        font-size: 36px;
+        top: 16%;
+    }
+    .bonus-score {
+        top: 18%;
+        left: 5%;
+    }
 }
 @media only screen and (min-height: 700px) {
     .score-icon {
@@ -475,6 +497,7 @@ export default {
     }
     .score-input {
         height: 2.4em;
+        width: 22vw;
     }
     .score {
         font-size: 36px;
@@ -485,7 +508,24 @@ export default {
         left: 5%;
     }
 }
-@media only screen and (min-width: 360px){
+@media (min-width: 360px) and (min-height: 800px) {
+    .score-icon {
+        font-size: 3.6em;
+    }
+    .score-input {
+        height: 2.9em;
+    }
+    .score {
+        font-size: 45px;
+        top: 23%;
+    }
+    .bonus-score {
+        font-size: 32px;
+        top: 27%;
+        left: 5%;
+    }
+}
+@media (min-width: 360px) and (max-height: 699px){
     .score-input {
         width: 25vw;
     }
@@ -495,9 +535,22 @@ export default {
         width: 30vw;
     }
 }
-@media only screen and (min-width: 700px){
+@media (min-width: 700px) and (min-height: 1000px){
+    .score-icon {
+        font-size: 4.8em;
+    }
     .score-input {
-        width: 32vw;
+        height: 4em;
+        width: 30vw
+    }
+    .score {
+        font-size: 70px;
+        top: 33%;
+    }
+    .bonus-score {
+        font-size: 54px;
+        top: 33%;
+        left: 5%;
     }
 }
 @media only screen and (min-width: 1080px){
