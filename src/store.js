@@ -187,6 +187,9 @@ export default new Vuex.Store({
     }
   },
   getters: {
+    activePlayer: state => {
+      return state.players.find(p => p.id === state.activePlayerID)
+    },
     upperTotal: state => (id) => {
       const player = state.players.find(p => p.id === id)
       const score = player.score
