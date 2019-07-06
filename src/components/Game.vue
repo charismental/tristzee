@@ -5,28 +5,22 @@
         <PlayerCreator />
       </v-dialog>
     </v-layout>
-    <!-- <PlayerCreator v-show="!gameRunning && !finishedPlayers.length"/> -->
     <div v-if="gameRunning">
       <Dice />
-      <v-btn class="btn" color="info" @click="rollDice(8)">Roll Dice</v-btn>
-      <v-btn class="btn" color="warning" @click="newGame">New Game</v-btn>
-      <!-- <div id="nav">
-        <router-link to="/">Upper Score</router-link> |
-        <router-link to="/lower">Lower Score</router-link>
-      </div>
-      <div class="player-info">
-        <span class="player-name">{{ activePlayer.name }} -</span>
-        <span class="rolls-remaining">{{ rollsRemaining }}</span>
-      </div>
-      <router-view :player="activePlayer" /> -->
-      <ScoreCard />
+      <v-btn :disabled="rollNumber === 4" block round large color="warning darken-3" @click="rollDice(8)">
+        <v-btn icon left flat dark absolute depressed><v-icon large left>mdi-dice-multiple</v-icon>ROLL</v-btn>
+        <v-btn round absolute right dark color="blue-grey">
+          <v-icon dark>mdi-numeric-{{ 4 - rollNumber }}</v-icon>
+        </v-btn>
+      </v-btn>
+      <ScoreCard :player="activePlayer" />
     </div>
     <FinishedPlayers v-show="finishedPlayers.length" />
   </div>
 </template>
 
 <script>
-import { mapState, mapMutations, mapActions } from 'vuex'
+import { mapState, mapMutations, mapActions, mapGetters } from 'vuex'
 import Dice from '@/components/Dice'
 import ScoreCard from '@/components/ScoreCard'
 import PlayerCreator from '@/components/PlayerCreator'
@@ -34,11 +28,6 @@ import FinishedPlayers from '@/components/FinishedPlayers'
 
 export default {
   name: 'Game',
-  // data () {
-  //   return {
-  //     bool: true
-  //   }
-  // },
   components: {
     Dice,
     ScoreCard,
@@ -46,8 +35,10 @@ export default {
     FinishedPlayers
   },
   computed: {
+    ...mapGetters([
+      'activePlayer'
+    ]),
     ...mapState([
-      'activePlayerID',
       'finishedPlayers',
       'players',
       'rollNumber',
@@ -56,18 +47,6 @@ export default {
     ]),
     createPlayer () {
       return !this.gameRunning ? true : false
-    },
-    activePlayer () {
-      return this.players.find(p => p.id === this.activePlayerID)
-    },
-    rollsRemaining () {
-      if (this.rollNumber === 4) {
-        return 'Out of rolls, dork'
-      } else if (this.rollNumber === 3) {
-        return '1 roll remaining'
-      } else {
-        return `${4 - this.rollNumber} rolls remaining`
-      }
     }
   },
   methods: {
