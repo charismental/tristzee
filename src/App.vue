@@ -1,8 +1,11 @@
 <template>
   <v-app>
     <v-content>
-      <v-toolbar>
+      <v-toolbar flat dark color="blue-grey darken-2">
         <v-toolbar-title>TRISTZEE</v-toolbar-title>
+        <v-spacer></v-spacer>
+          <v-toolbar-title>{{ activePlayer.name }} - {{ grandTotal(activePlayer.id) }}</v-toolbar-title>
+          <v-btn icon color="warning darken-2" @click="newGame"><v-icon>mdi-restart</v-icon></v-btn>
       </v-toolbar>
       <v-container>
         <Game />
@@ -13,33 +16,25 @@
 
 <script>
 import Game from '@/components/Game.vue'
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
   components: {
     Game
+  },
+  computed: {
+    ...mapGetters([
+      'activePlayer',
+      'grandTotal'
+    ])
+  },
+  methods: {
+        ...mapActions([
+      'newGame'
+    ])
   }
 }
 </script>
 
 <style>
-h1 .title {
-  font-family: 'Courier New', Courier, monospace;
-}
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-/* #nav {
-  margin-top: 20px;
-}
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-#nav a.router-link-exact-active {
-  color: #42b983;
-} */
 </style>
