@@ -33,8 +33,7 @@ export default new Vuex.Store({
           lowStraight: null,
           highStraight: null,
           tristzee: null,
-          chance: null,
-          tristzeeBonus: null
+          chance: null
         }
       },
     dice: [
@@ -123,7 +122,6 @@ export default new Vuex.Store({
       const player = state.players.find(p => p.id === id)
       const score = JSON.parse(JSON.stringify(player.score))
       delete score.upperBonus
-      delete score.tristzeeBonus
       const shouldHaveMoreTurns = Object.values(score).some(x => x === null)
       if (!shouldHaveMoreTurns && state.players.length > 1) {
         dispatch('removePlayer', id)
@@ -155,10 +153,8 @@ export default new Vuex.Store({
       if (isNaN(value)) {
         return
       }
-        if (value === 100  && !state.players[playerIndex].score.tristzeeBonus) {
-        state.players[playerIndex].score.tristzeeBonus = 100
-      } else if (value === 100 && state.players[playerIndex].score.tristzeeBonus) {
-        state.players[playerIndex].score.tristzeeBonus += 100
+      if (value === 100) {
+        state.players[playerIndex].score.tristzee += 100
       } else if (!score) {
         state.rollNumber > 1 ? Vue.set(state.players[playerIndex].score, field, value) : ''
         getters.upperTotal(id) >= 63 ? commit('addUpperBonus', id) : ''
@@ -166,9 +162,6 @@ export default new Vuex.Store({
       dispatch('switchTurns')
     },
     createPlayer ({ state }, name) {
-      // const newPlayer = {...state.playerTemplate}
-      // const newPlayer = Object.assign(state.playerTemplate)
-      // what a weird way to have to deep clone an object...
       let newPlayer = JSON.parse(JSON.stringify(state.playerTemplate))
       newPlayer.id = state.players.length + 1
       newPlayer.name = name ? name : 'Derp-Derp'
@@ -182,7 +175,6 @@ export default new Vuex.Store({
         state.activePlayerIndex = state.activePlayerIndex % players.length
         state.activePlayerID = players[state.activePlayerIndex]
         commit('resetRoll')
-        // state.players.length > 1 ? router.push('/') : ''
       }, 500)
     }
   },
@@ -203,7 +195,7 @@ export default new Vuex.Store({
     lowerTotal: state => (id) => {
       const player = state.players.find(p => p.id === id)
       const score = player.score
-      const total = score.threeKind + score.fourKind + score.fullHouse + score.lowStraight + score.highStraight + score.tristzee + score.chance + score.tristzeeBonus
+      const total = score.threeKind + score.fourKind + score.fullHouse + score.lowStraight + score.highStraight + score.tristzee + score.chance
       return total
     },
     grandTotal: state => (id) => {

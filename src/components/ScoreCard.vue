@@ -141,7 +141,7 @@
                             </v-tooltip>
                             <div class="score-input">
                                 <div class="bonus-score">
-                                    {{ upperTotal(player.id) }} / 63
+                                    {{ player.score.upperBonus || `${upperTotal(player.id)}/63` }}
                                 </div>
                             </div>
                         </div>
@@ -275,7 +275,7 @@
                             <div class="score-input">
                                 <div
                                     class="score"
-                                    :class="[{'potential-score': player.score.tristzee === null && rollNumber > 1}]"
+                                    :class="[{'potential-score': (player.score.tristzee === null && rollNumber > 1) || kindScore(5) === 100}]"
                                     @click="addScore({'field':'tristzee', 'id': player.id, 'value':kindScore(5)})">
                                     {{ displayScore('tristzee') || isRolling(kindScore(5)) }}
                                 </div>
@@ -367,22 +367,14 @@ export default {
                 arr.forEach(val => {
                     newArr.push(this.countInArray(allDiceValues, val))
                 })
-                if (number === 5 && newArr.find(c => c >= number)) {
+                if (number === 5 && newArr.find(c => c >= number) && this.player.score.tristzee >= 50) {
+                    return 100
+                } else if (number === 5 && newArr.find(c => c >= number)) {
                     return 50
                 } else if (newArr.find(c => c >= number)) {
                     return allDiceValues.reduce((a, b) => a + b, 0)
                 } else {
                     return 0
-                }
-            }
-        },
-        tristzeeBonusScore () {
-            if (this.rollNumber > 1) {
-                const isTristzee = this.dice
-                    .map(d => d.value)
-                    .every((val, i, arr) => val === arr[0])
-                if (isTristzee && this.player.score.tristzee === 50) {
-                    return 100
                 }
             }
         },
@@ -396,6 +388,7 @@ export default {
                     newArr.push(this.countInArray(allDiceValues, val))
                 })
                 return newArr.includes(3) && newArr.includes(2) ? 25 : 0
+                // add rule to accept tristzee as valid full house when tristzee assigned 0 ?
             }
         },
         straightScore (num) {
