@@ -28,11 +28,11 @@ props: {
   height: 48px;
   width: 48px;
   background-color: #FFF;
+  border-radius: 8px;
   border: 2px solid #000;
   display: inline-grid;
-  padding-top: 3px;
-  padding-left: 3px;
-  grid-gap: 3px;
+  padding-top: 4px;
+  padding-left: 4px;
   grid-template-columns: auto auto auto;
   grid-template-rows: auto auto auto;
   grid-template-areas: "a b c"
@@ -40,11 +40,11 @@ props: {
                       "g h i";
 }
 .held {
-  background-color: lightgreen;
+  background-color: #78909C;
 }
 .dot {
-  height: 10px;
-  width: 10px;
+  height: 9px;
+  width: 9px;
   background-color: #000;
   border-radius: 50%;
 }
@@ -77,5 +77,17 @@ props: {
 }
 .hidden {
  opacity: 0;
+}
+@media only screen and (min-width: 380px) {
+    .die {
+      height: 64px;
+      width: 64px;
+      padding-top: 5px;
+      padding-left: 5px;
+  }
+    .dot {
+      height: 12px;
+      width: 12px;
+  }
 }
 </style>
