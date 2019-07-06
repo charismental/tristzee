@@ -12,11 +12,11 @@
                                 </template>
                                 <span>Count and Add Only Ones</span>
                             </v-tooltip>
-                            <div class="score-input">
+                            <div class="score-input"
+                                @click="addScore({'field':'one', 'id': player.id, 'value':potentialUpperItemScore(1)})">
                                 <div
                                     class="score"
-                                    :class="[{'potential-score': player.score.one === null && rollNumber > 1}]"
-                                    @click="addScore({'field':'one', 'id': player.id, 'value':potentialUpperItemScore(1)})">
+                                    :class="[{'potential-score': player.score.one === null && rollNumber > 1}]">
                                     {{ displayScore('one', 1) }}
                                 </div>
                             </div>
@@ -34,10 +34,10 @@
                                 </template>
                                 <span>Count and Add Only Twos</span>
                             </v-tooltip>
-                            <div class="score-input">
+                            <div class="score-input"
+                                @click="addScore({'field':'two', 'id': player.id, 'value':potentialUpperItemScore(2)})">
                                 <div class="score"
-                                    :class="[{'potential-score': player.score.two === null && rollNumber > 1}]" 
-                                    @click="addScore({'field':'two', 'id': player.id, 'value':potentialUpperItemScore(2)})">
+                                    :class="[{'potential-score': player.score.two === null && rollNumber > 1}]">
                                     {{ displayScore('two', 2) }}
                                 </div>
                             </div>
@@ -55,10 +55,10 @@
                                 </template>
                                 <span>Count and Add Only Threes</span>
                             </v-tooltip>
-                            <div class="score-input">
+                            <div class="score-input"
+                                @click="addScore({'field':'three', 'id': player.id, 'value':potentialUpperItemScore(3)})">
                                 <div class="score"
-                                    :class="[{'potential-score': player.score.three === null && rollNumber > 1}]"
-                                    @click="addScore({'field':'three', 'id': player.id, 'value':potentialUpperItemScore(3)})">
+                                    :class="[{'potential-score': player.score.three === null && rollNumber > 1}]">
                                     {{ displayScore('three', 3) }}
                                 </div>
                             </div>
@@ -76,10 +76,10 @@
                                 </template>
                                 <span>Count and Add Only Fours</span>
                             </v-tooltip>
-                            <div class="score-input">
+                            <div class="score-input"
+                                @click="addScore({'field':'four', 'id': player.id, 'value':potentialUpperItemScore(4)})">
                                 <div class="score"
-                                    :class="[{'potential-score': player.score.four === null && rollNumber > 1}]"
-                                    @click="addScore({'field':'four', 'id': player.id, 'value':potentialUpperItemScore(4)})">
+                                    :class="[{'potential-score': player.score.four === null && rollNumber > 1}]">
                                     {{ displayScore('four', 4) }}
                                 </div>
                             </div>
@@ -97,10 +97,10 @@
                                 </template>
                                 <span>Count and Add Only Fives</span>
                             </v-tooltip>
-                            <div class="score-input">
+                            <div class="score-input"
+                                @click="addScore({'field':'five', 'id': player.id, 'value':potentialUpperItemScore(5)})">
                                 <div class="score"
-                                    :class="[{'potential-score': player.score.five === null && rollNumber > 1}]"
-                                    @click="addScore({'field':'five', 'id': player.id, 'value':potentialUpperItemScore(5)})">
+                                    :class="[{'potential-score': player.score.five === null && rollNumber > 1}]">
                                     {{ displayScore('five', 5) }}
                                 </div>
                             </div>
@@ -118,10 +118,10 @@
                                 </template>
                                 <span>Count and Add Only Sixes</span>
                             </v-tooltip>
-                            <div class="score-input">
+                            <div class="score-input"
+                                @click="addScore({'field':'six', 'id': player.id, 'value':potentialUpperItemScore(6)})">
                                 <div class="score"
-                                    :class="[{'potential-score': player.score.six === null && rollNumber > 1}]"
-                                    @click="addScore({'field':'six', 'id': player.id, 'value':potentialUpperItemScore(6)})">
+                                    :class="[{'potential-score': player.score.six === null && rollNumber > 1}]">
                                     {{ displayScore('six', 6) }}
                                 </div>
                             </div>
@@ -162,11 +162,11 @@
                                 </template>
                                 <span>3 of a kind - Add Total of All Dice</span>
                             </v-tooltip>
-                            <div class="score-input">
+                            <div class="score-input"
+                                @click="addScore({'field':'threeKind', 'id': player.id, 'value':kindScore(3)})">
                                 <div
                                     class="score"
-                                    :class="[{'potential-score': player.score.threeKind === null && rollNumber > 1}]"
-                                    @click="addScore({'field':'threeKind', 'id': player.id, 'value':kindScore(3)})">
+                                    :class="[{'potential-score': player.score.threeKind === null && rollNumber > 1}]">
                                     {{ displayScore('threeKind') || isRolling(kindScore(3)) }}
                                 </div>
                             </div>
@@ -184,11 +184,11 @@
                                 </template>
                                 <span>4 of a kind - Add Total of All Dice</span>
                             </v-tooltip>
-                            <div class="score-input">
+                            <div class="score-input"
+                                @click="addScore({'field':'fourKind', 'id': player.id, 'value':kindScore(4)})">
                                 <div
                                     class="score"
-                                    :class="[{'potential-score': player.score.fourKind === null && rollNumber > 1}]"
-                                    @click="addScore({'field':'fourKind', 'id': player.id, 'value':kindScore(4)})">
+                                    :class="[{'potential-score': player.score.fourKind === null && rollNumber > 1}]">
                                     {{ displayScore('fourKind') || isRolling(kindScore(4)) }}
                                 </div>
                             </div>
@@ -206,11 +206,11 @@
                                 </template>
                                 <span>Full House - 25 points</span>
                             </v-tooltip>
-                            <div class="score-input">
+                            <div class="score-input"
+                                @click="addScore({'field':'fullHouse', 'id': player.id, 'value':fullHouseScore()})">
                                 <div
                                     class="score"
-                                    :class="[{'potential-score': player.score.fullHouse === null && rollNumber > 1}]"
-                                    @click="addScore({'field':'fullHouse', 'id': player.id, 'value':fullHouseScore()})">
+                                    :class="[{'potential-score': player.score.fullHouse === null && rollNumber > 1}]">
                                     {{ displayScore('fullHouse') || isRolling(fullHouseScore()) }}
                                 </div>
                             </div>
@@ -228,11 +228,11 @@
                                 </template>
                                 <span>Small Straight - 30 points</span>
                             </v-tooltip>
-                            <div class="score-input">
+                            <div class="score-input"
+                                @click="addScore({'field':'lowStraight', 'id': player.id, 'value':straightScore(4)})">
                                 <div
                                     class="score"
-                                    :class="[{'potential-score': player.score.lowStraight === null && rollNumber > 1}]"
-                                    @click="addScore({'field':'lowStraight', 'id': player.id, 'value':straightScore(4)})">
+                                    :class="[{'potential-score': player.score.lowStraight === null && rollNumber > 1}]">
                                     {{ displayScore('lowStraight') || isRolling(straightScore(4)) }}
                                 </div>
                             </div>
@@ -250,11 +250,11 @@
                                 </template>
                                 <span>Large Straight - 40 points</span>
                             </v-tooltip>
-                            <div class="score-input">
+                            <div class="score-input"
+                                @click="addScore({'field':'highStraight', 'id': player.id, 'value':straightScore(5)})">
                                 <div
                                     class="score"
-                                    :class="[{'potential-score': player.score.highStraight === null && rollNumber > 1}]"
-                                    @click="addScore({'field':'highStraight', 'id': player.id, 'value':straightScore(5)})">
+                                    :class="[{'potential-score': player.score.highStraight === null && rollNumber > 1}]">
                                     {{ displayScore('highStraight') || isRolling(straightScore(5)) }}
                                 </div>
                             </div>
@@ -272,11 +272,11 @@
                                 </template>
                                 <span>Tristzee - 50 points / 100 subsequents</span>
                             </v-tooltip>
-                            <div class="score-input">
+                            <div class="score-input"
+                                @click="addScore({'field':'tristzee', 'id': player.id, 'value':kindScore(5)})">
                                 <div
                                     class="score"
-                                    :class="[{'potential-score': (player.score.tristzee === null && rollNumber > 1) || kindScore(5) === 100}]"
-                                    @click="addScore({'field':'tristzee', 'id': player.id, 'value':kindScore(5)})">
+                                    :class="[{'potential-score': (player.score.tristzee === null && rollNumber > 1) || kindScore(5) === 100}]">
                                     {{ displayScore('tristzee') || isRolling(kindScore(5)) }}
                                 </div>
                             </div>
@@ -294,11 +294,11 @@
                                 </template>
                                 <span>Chance - Score Total of All 5 Dice</span>
                             </v-tooltip>
-                            <div class="score-input">
+                            <div class="score-input"
+                                @click="addScore({'field':'chance', 'id': player.id, 'value':kindScore(1)})">
                                 <div
                                     class="score"
-                                    :class="[{'potential-score': player.score.chance === null && rollNumber > 1}]"
-                                    @click="addScore({'field':'chance', 'id': player.id, 'value':kindScore(1)})">
+                                    :class="[{'potential-score': player.score.chance === null && rollNumber > 1}]">
                                     {{ displayScore('chance') || isRolling(kindScore(1)) }}
                                 </div>
                             </div>
