@@ -12,7 +12,7 @@
       </v-container>
     </v-content>
   </v-app>
-</template>s
+</template>
 
 <script>
 import Game from '@/components/Game.vue'
