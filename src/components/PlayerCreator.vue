@@ -1,6 +1,6 @@
 <template>
     <v-card class="elevation-12">
-        <v-toolbar dark color="primary">
+        <v-toolbar dark color="blue-grey darken-2">
             <v-toolbar-title>Create Player</v-toolbar-title>
             <v-spacer></v-spacer>
         </v-toolbar>
@@ -18,7 +18,7 @@
                     v-for="player in players"
                     :key="player.id">
                     <v-list-tile-content>
-                        <v-list-tile-title v-text="`Player ${player.id} - ${player.name}`"></v-list-tile-title>
+                        <v-list-tile-title class="title" v-text="`Player ${player.id} - ${player.name}`"></v-list-tile-title>
                     </v-list-tile-content>
                     <v-list-tile-avatar>
                         <!-- <img :src="player.avatar"> -->
@@ -29,11 +29,12 @@
         <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn
-                color="info"
+                color="warning darken-3"
                 @click="createPlayerReset(name)">Create</v-btn>
             <v-btn
                 @click="gameRunningToggle(true)"
-                color="error"
+                color="blue-grey"
+                dark
                 v-show="players.length">Start Game</v-btn>
         </v-card-actions>
     </v-card>
