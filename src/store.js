@@ -155,11 +155,12 @@ export default new Vuex.Store({
       }
       if (value === 100) {
         state.players[playerIndex].score.tristzee += 100
+        dispatch('switchTurns')
       } else if (!score) {
         state.rollNumber > 1 ? Vue.set(state.players[playerIndex].score, field, value) : ''
         getters.upperTotal(id) >= 63 ? commit('addUpperBonus', id) : ''
+        dispatch('switchTurns')
       }
-      dispatch('switchTurns')
     },
     createPlayer ({ state }, name) {
       let newPlayer = JSON.parse(JSON.stringify(state.playerTemplate))
