@@ -12,6 +12,10 @@
                     label="Name"
                     v-model="name"
                     type="text"></v-text-field>
+                <v-checkbox
+                    v-model="isComputer"
+                    label="Robot?"
+                    ></v-checkbox>
             </v-form>
             <v-list>
                 <v-list-tile
@@ -38,14 +42,6 @@
                 v-show="players.length">Start Game</v-btn>
         </v-card-actions>
     </v-card>
-<!-- <v-content>
-        <v-container fluid fill-height>
-            <v-layout align-center justify-center>
-                <v-flex xs12 sm8 md4>
-                </v-flex>
-            </v-layout>
-        </v-container>
-    </v-content> -->
 </template>
 
 <script>
@@ -53,7 +49,8 @@ import { mapState, mapMutations } from 'vuex'
 export default {
     data () {
         return {
-            name: ''
+            name: '',
+            isComputer: false
         }
     },
     computed: {
@@ -66,8 +63,9 @@ export default {
             'gameRunningToggle'
         ]),
         createPlayerReset (name) {
-            this.$store.dispatch('createPlayer', name)
+            this.$store.dispatch('createPlayer', {'name':name, 'isComputer':this.isComputer })
             this.name = ''
+            this.isComputer = false
         }
     }
 }
