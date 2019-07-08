@@ -7,12 +7,13 @@
     </v-layout>
     <div v-if="gameRunning">
       <Dice />
-      <v-btn :disabled="rollNumber === 4 || rolling" block round large color="warning darken-3" @click="rollDice(8)">
+      <v-btn :disabled="rollNumber === 4 || rolling" round block large color="warning darken-3" @click="rollDice(8)">
         <v-btn icon left flat dark absolute depressed><v-icon large left>mdi-dice-multiple</v-icon>ROLL</v-btn>
         <v-btn round absolute right dark color="blue-grey">
           <v-icon dark>mdi-numeric-{{ 4 - rollNumber }}</v-icon>
         </v-btn>
       </v-btn>
+      <v-btn color="primary" round large @click="robotStep">Robot turn</v-btn>
       <ScoreCard :player="activePlayer" />
     </div>
     <FinishedPlayers v-show="finishedPlayers.length" />
@@ -56,7 +57,8 @@ export default {
     ]),
     ...mapActions([
       'newGame',
-      'rollDice'
+      'rollDice',
+      'robotStep'
     ])
   }
 }
