@@ -1,13 +1,15 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import initial from './store/initialState'
+import computer from './store/computer'
 // import router from './router'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   modules: {
-    initial
+    initial,
+    computer
   },
   state: {
     gameRunning: false,
@@ -18,6 +20,7 @@ export default new Vuex.Store({
     playerTemplate: 
       {
         id: null,
+        isComputer: false,
         name: '',
         score: {
           one: null,
@@ -162,10 +165,11 @@ export default new Vuex.Store({
         dispatch('switchTurns')
       }
     },
-    createPlayer ({ state }, name) {
+    createPlayer ({ state }, {name, isComputer}) {
       let newPlayer = JSON.parse(JSON.stringify(state.playerTemplate))
       newPlayer.id = state.players.length + 1
       newPlayer.name = name ? name : 'Derp-Derp'
+      newPlayer.isComputer = isComputer
       state.players.push(newPlayer)
     },
     switchTurns ({ state, commit, dispatch }) {
@@ -205,6 +209,77 @@ export default new Vuex.Store({
       const total = Object.values(score)
         .reduce((a,b) => a + b, 0)
       return total
+    },
+    allDiceValues: state => {
+      return state.dice
+        .map(d => d.value)
+        .sort((a, b) => a-b)
+    },
+    potentialUpperItemScore: state => (number) => {
+      if (state.rollNumber > 1) {
+        return state.dice
+          .filter(d => d.value === number)
+          .map(d => d.value)
+          .reduce((a, b) => a + b, 0)
+      }
+    },
+    kindScore: (state, getters) => (number) => {
+      if (state.rollNumber > 1) {
+          const arr = [1, 2, 3, 4, 5, 6]
+          const newArr = []
+          const countInArray = (array, num) => {
+            return array.filter(x => x === num).length
+          }
+          arr.forEach(val => {
+              newArr.push(countInArray(getters.allDiceValues, val))
+          })
+          // does this work for finding activeplayer?
+          if (number === 5 && newArr.find(c => c >= number) && state.players[state.activePlayerIndex].score.tristzee >= 50) {
+              return 100
+          } else if (number === 5 && newArr.find(c => c >= number)) {
+              return 50
+          } else if (newArr.find(c => c >= number)) {
+              return getters.allDiceValues.reduce((a, b) => a + b, 0)
+          } else {
+              return 0
+          }
+      }
+    },
+    fullHouseScore: (state, getters) => {
+      if (state.rollNumber > 1) {
+          const arr = [1, 2, 3, 4, 5, 6]
+          const countInArray = (array, num) => {
+            return array.filter(x => x === num).length
+          }
+          const newArr = []
+          arr.forEach(val => {
+              newArr.push(countInArray(getters.allDiceValues, val))
+          })
+          return newArr.includes(3) && newArr.includes(2) ? 25 : 0
+          // add rule to accept tristzee as valid full house when tristzee assigned 0 ?
+      }
+    },
+    straightScore: (state, getters) => (num) => {
+      if (state.rollNumber > 1) {
+          const uniques = Array.from(new Set(getters.allDiceValues))
+          let consec = 1
+          uniques.forEach((el, i) => {
+              if (consec >= 4 && el - uniques[i-1] !== 1) {
+                  return
+              } else if (consec <=3 && el - uniques[i-1] !==1){
+                  consec = 1
+              } else {
+                  consec++
+              }
+          })
+          if (consec === 5 && num === 5) {
+              return 40
+          } else if (consec >= num && num === 4) {
+              return 30
+          } else {
+              return 0
+          }
+      }
     }
   }
 })
