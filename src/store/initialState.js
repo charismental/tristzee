@@ -7,6 +7,7 @@ const state = () => ({
     playerTemplate: 
       {
         id: null,
+        isComputer: false,
         name: '',
         score: {
           one: null,
