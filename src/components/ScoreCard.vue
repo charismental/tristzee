@@ -13,8 +13,8 @@
                                 <span>Count and Add Only Ones</span>
                             </v-tooltip>
                             <div class="score-input"
-                                @click="addScore({'field':'one', 'id': player.id, 'value':potentialUpperItemScore(1)})">
-                                <div
+                                @click="player.isComputer ? addScore({'field':'one', 'id': player.id, 'value':potentialUpperItemScore(1)}) : ''">
+                                <div 
                                     class="score"
                                     :class="[{'potential-score': player.score.one === null && rollNumber > 1}]">
                                     {{ displayScore('one', 1) }}
@@ -35,8 +35,9 @@
                                 <span>Count and Add Only Twos</span>
                             </v-tooltip>
                             <div class="score-input"
-                                @click="addScore({'field':'two', 'id': player.id, 'value':potentialUpperItemScore(2)})">
-                                <div class="score"
+                                @click="player.isComputer ? addScore({'field':'two', 'id': player.id, 'value':potentialUpperItemScore(2)}) : ''">
+                                <div 
+                                    class="score"
                                     :class="[{'potential-score': player.score.two === null && rollNumber > 1}]">
                                     {{ displayScore('two', 2) }}
                                 </div>
@@ -56,8 +57,9 @@
                                 <span>Count and Add Only Threes</span>
                             </v-tooltip>
                             <div class="score-input"
-                                @click="addScore({'field':'three', 'id': player.id, 'value':potentialUpperItemScore(3)})">
-                                <div class="score"
+                                @click="player.isComputer ? addScore({'field':'three', 'id': player.id, 'value':potentialUpperItemScore(3)}) : ''">
+                                <div 
+                                    class="score"
                                     :class="[{'potential-score': player.score.three === null && rollNumber > 1}]">
                                     {{ displayScore('three', 3) }}
                                 </div>
@@ -77,8 +79,9 @@
                                 <span>Count and Add Only Fours</span>
                             </v-tooltip>
                             <div class="score-input"
-                                @click="addScore({'field':'four', 'id': player.id, 'value':potentialUpperItemScore(4)})">
-                                <div class="score"
+                                @click="player.isComputer ? addScore({'field':'four', 'id': player.id, 'value':potentialUpperItemScore(4)}) : ''">
+                                <div 
+                                    class="score"
                                     :class="[{'potential-score': player.score.four === null && rollNumber > 1}]">
                                     {{ displayScore('four', 4) }}
                                 </div>
@@ -98,8 +101,9 @@
                                 <span>Count and Add Only Fives</span>
                             </v-tooltip>
                             <div class="score-input"
-                                @click="addScore({'field':'five', 'id': player.id, 'value':potentialUpperItemScore(5)})">
-                                <div class="score"
+                                @click="player.isComputer ? addScore({'field':'five', 'id': player.id, 'value':potentialUpperItemScore(5)}) : ''">
+                                <div 
+                                    class="score"
                                     :class="[{'potential-score': player.score.five === null && rollNumber > 1}]">
                                     {{ displayScore('five', 5) }}
                                 </div>
@@ -119,8 +123,9 @@
                                 <span>Count and Add Only Sixes</span>
                             </v-tooltip>
                             <div class="score-input"
-                                @click="addScore({'field':'six', 'id': player.id, 'value':potentialUpperItemScore(6)})">
-                                <div class="score"
+                                @click="player.isComputer ? addScore({'field':'six', 'id': player.id, 'value':potentialUpperItemScore(6)}) : ''">
+                                <div 
+                                    class="score"
                                     :class="[{'potential-score': player.score.six === null && rollNumber > 1}]">
                                     {{ displayScore('six', 6) }}
                                 </div>
@@ -163,7 +168,7 @@
                                 <span>3 of a kind - Add Total of All Dice</span>
                             </v-tooltip>
                             <div class="score-input"
-                                @click="addScore({'field':'threeKind', 'id': player.id, 'value':kindScore(3)})">
+                                @click="player.isComputer ? addScore({'field':'threeKind', 'id': player.id, 'value':kindScore(3)}) : ''">
                                 <div
                                     class="score"
                                     :class="[{'potential-score': player.score.threeKind === null && rollNumber > 1}]">
@@ -185,7 +190,7 @@
                                 <span>4 of a kind - Add Total of All Dice</span>
                             </v-tooltip>
                             <div class="score-input"
-                                @click="addScore({'field':'fourKind', 'id': player.id, 'value':kindScore(4)})">
+                                @click="player.isComputer ? addScore({'field':'fourKind', 'id': player.id, 'value':kindScore(4)}) : ''">
                                 <div
                                     class="score"
                                     :class="[{'potential-score': player.score.fourKind === null && rollNumber > 1}]">
@@ -207,11 +212,11 @@
                                 <span>Full House - 25 points</span>
                             </v-tooltip>
                             <div class="score-input"
-                                @click="addScore({'field':'fullHouse', 'id': player.id, 'value':fullHouseScore()})">
+                                @click="player.isComputer ? addScore({'field':'fullHouse', 'id': player.id, 'value':fullHouseScore}) : ''">
                                 <div
                                     class="score"
                                     :class="[{'potential-score': player.score.fullHouse === null && rollNumber > 1}]">
-                                    {{ displayScore('fullHouse') || isRolling(fullHouseScore()) }}
+                                    {{ displayScore('fullHouse') || isRolling(fullHouseScore) }}
                                 </div>
                             </div>
                         </div>
@@ -229,7 +234,7 @@
                                 <span>Small Straight - 30 points</span>
                             </v-tooltip>
                             <div class="score-input"
-                                @click="addScore({'field':'lowStraight', 'id': player.id, 'value':straightScore(4)})">
+                                @click="player.isComputer ? addScore({'field':'lowStraight', 'id': player.id, 'value':straightScore(4)}) : ''">
                                 <div
                                     class="score"
                                     :class="[{'potential-score': player.score.lowStraight === null && rollNumber > 1}]">
@@ -251,7 +256,7 @@
                                 <span>Large Straight - 40 points</span>
                             </v-tooltip>
                             <div class="score-input"
-                                @click="addScore({'field':'highStraight', 'id': player.id, 'value':straightScore(5)})">
+                                @click="player.isComputer ? addScore({'field':'highStraight', 'id': player.id, 'value':straightScore(5)}) : ''">
                                 <div
                                     class="score"
                                     :class="[{'potential-score': player.score.highStraight === null && rollNumber > 1}]">
@@ -273,7 +278,7 @@
                                 <span>Tristzee - 50 points / 100 subsequents</span>
                             </v-tooltip>
                             <div class="score-input"
-                                @click="addScore({'field':'tristzee', 'id': player.id, 'value':kindScore(5)})">
+                                @click="player.isComputer ? addScore({'field':'tristzee', 'id': player.id, 'value':kindScore(5)}) : ''">
                                 <div
                                     class="score"
                                     :class="[{'potential-score': (player.score.tristzee === null && rollNumber > 1) || kindScore(5) === 100}]">
@@ -295,7 +300,7 @@
                                 <span>Chance - Score Total of All 5 Dice</span>
                             </v-tooltip>
                             <div class="score-input"
-                                @click="addScore({'field':'chance', 'id': player.id, 'value':kindScore(1)})">
+                                @click="player.isComputer ? addScore({'field':'chance', 'id': player.id, 'value':kindScore(1)}) : ''">
                                 <div
                                     class="score"
                                     :class="[{'potential-score': player.score.chance === null && rollNumber > 1}]">
@@ -321,7 +326,11 @@ export default {
     computed: {
         ...mapGetters([
             'upperTotal',
-            'upperTotalWithBonus'
+            'upperTotalWithBonus',
+            'potentialUpperItemScore',
+            'kindScore',
+            'fullHouseScore',
+            'straightScore'
         ]),
         ...mapState([
             'rollNumber',
@@ -331,7 +340,8 @@ export default {
     },
     methods: {
         ...mapActions([
-            'addScore'
+            'addScore',
+            'displayScore'
         ]),
         displayScore (field, num) {
             if (this.player.score[field] === 0) {
@@ -342,78 +352,9 @@ export default {
                 return this.potentialUpperItemScore(num)
             }
         },
-        potentialUpperItemScore (n) {
-            if (this.rollNumber > 1) {
-                return this.dice
-                    .filter(d => d.value === n)
-                    .map(d => d.value)
-                    .reduce((a, b) => a + b, 0)
-            }
-        },
         isRolling (func) {
             if(!this.rolling) {
                 return func
-            }
-        },
-        countInArray (array, num) {
-            return array.filter(x => x === num).length
-        },
-        kindScore (number) {
-            if (this.rollNumber > 1) {
-                const allDiceValues = this.dice
-                    .map(d => d.value)
-                const arr = [1, 2, 3, 4, 5, 6]
-                const newArr = []
-                arr.forEach(val => {
-                    newArr.push(this.countInArray(allDiceValues, val))
-                })
-                if (number === 5 && newArr.find(c => c >= number) && this.player.score.tristzee >= 50) {
-                    return 100
-                } else if (number === 5 && newArr.find(c => c >= number)) {
-                    return 50
-                } else if (newArr.find(c => c >= number)) {
-                    return allDiceValues.reduce((a, b) => a + b, 0)
-                } else {
-                    return 0
-                }
-            }
-        },
-        fullHouseScore () {
-            if (this.rollNumber > 1) {
-                const allDiceValues = this.dice
-                    .map(d => d.value)
-                const arr = [1, 2, 3, 4, 5, 6]
-                const newArr = []
-                arr.forEach(val => {
-                    newArr.push(this.countInArray(allDiceValues, val))
-                })
-                return newArr.includes(3) && newArr.includes(2) ? 25 : 0
-                // add rule to accept tristzee as valid full house when tristzee assigned 0 ?
-            }
-        },
-        straightScore (num) {
-            if (this.rollNumber > 1) {
-                const allDiceValues = this.dice
-                    .map(d => d.value)
-                    .sort((a, b) => a-b)
-                const uniques = Array.from(new Set(allDiceValues))
-                let consec = 1
-                uniques.forEach((el, i) => {
-                    if (consec >= 4 && el - uniques[i-1] !== 1) {
-                        return
-                    } else if (consec <=3 && el - uniques[i-1] !==1){
-                        consec = 1
-                    } else {
-                        consec++
-                    }
-                })
-                if (consec === 5 && num === 5) {
-                    return 40
-                } else if (consec >= num && num === 4) {
-                    return 30
-                } else {
-                    return 0
-                }
             }
         }
     }
