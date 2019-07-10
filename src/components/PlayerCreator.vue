@@ -50,7 +50,7 @@ export default {
     data () {
         return {
             name: '',
-            isComputer: false
+            isComputer: true
         }
     },
     computed: {
