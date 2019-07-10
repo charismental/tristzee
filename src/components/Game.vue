@@ -14,6 +14,7 @@
         </v-btn>
       </v-btn>
       <v-btn color="primary" round large @click="robotStep">Robot turn</v-btn>
+      <v-btn color="error" round large @click="resetStepNumber">Reset turns</v-btn>
       <ScoreCard :player="activePlayer" />
     </div>
     <FinishedPlayers v-show="finishedPlayers.length" />
@@ -53,7 +54,8 @@ export default {
   },
   methods: {
     ...mapMutations([
-      'removePlayer'
+      'removePlayer',
+      'resetStepNumber'
     ]),
     ...mapActions([
       'newGame',
