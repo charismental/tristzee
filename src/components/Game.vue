@@ -7,7 +7,7 @@
     </v-layout>
     <div v-if="gameRunning">
       <Dice />
-      <v-btn :disabled="rollNumber === 4 || rolling" round block large color="warning darken-3" @click="rollDice(8)">
+      <v-btn :disabled="rollNumber === 4 || rolling || allHeld" round block large color="warning darken-3" @click="rollDice(8)">
         <v-btn icon left flat dark absolute depressed><v-icon large left>mdi-dice-multiple</v-icon>ROLL</v-btn>
         <v-btn round absolute right dark color="blue-grey">
           <v-icon dark>mdi-numeric-{{ 4 - rollNumber }}</v-icon>
@@ -38,7 +38,8 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'activePlayer'
+      'activePlayer',
+      'allHeld'
     ]),
     ...mapState([
       'finishedPlayers',

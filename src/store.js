@@ -184,6 +184,9 @@ export default new Vuex.Store({
     }
   },
   getters: {
+    allHeld: state => {
+      return state.dice.every(v => v.held === true)
+    },
     activePlayer: state => {
       return state.players.find(p => p.id === state.activePlayerID)
     },
