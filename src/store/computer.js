@@ -48,7 +48,7 @@ export default {
             const score = activePlayer.score
                 delete score.upperBonus
             const available = Object.keys(score)
-                .filter(val => !score[val])
+                .filter(val => score[val] === null)
             if (state.stepNumber === 2) {
                 console.log('heres what im working with', getters.allDiceValues, available)
                 commit('incrementStepNumber')
