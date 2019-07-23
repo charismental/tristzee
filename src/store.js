@@ -236,8 +236,7 @@ export default new Vuex.Store({
           arr.forEach(val => {
               newArr.push(countInArray(getters.allDiceValues, val))
           })
-          // does this work for finding activeplayer?
-          if (number === 5 && newArr.find(c => c >= number) && state.players[state.activePlayerIndex].score.tristzee >= 50) {
+          if (number === 5 && newArr.find(c => c >= number) && getters.activePlayer.score.tristzee >= 50) {
               return 100
           } else if (number === 5 && newArr.find(c => c >= number)) {
               return 50
