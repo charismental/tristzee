@@ -35,10 +35,41 @@ export default {
             console.log('I can get behind a four of a kind!')
             if (rootState.rollNumber < 4) {
                 console.log('Wonder if I can make this a Tristzee??')
-                // hold relevant dice
+                console.log('Here is the four of a kind dice value: ', getters.valFrequency(4))
+                rootState.dice.forEach(d => d.value === getters.valFrequency(4) ? commit('holdDie', d) : commit('unholdDie', d))
+                commit('resetStepNumber')
+                console.log('Gonna roll again...')
                 dispatch('rollDice', 8)
-            } else {
-                return
+            } else if (getters.availableFields.includes(getters.fieldByNumber(getters.valFrequency(4)))) {
+                console.log(`Let's add this to ${getters.fieldByNumber(getters.valFrequency(4))}`)
+                dispatch('addUpper', getters.valFrequency(4))
+                commit('resetStepNumber')
+            } else if (getters.valFrequency(4) >= 4 && getters.availableFields.includes('fourKind')) {
+                console.log('Feed it to the four of a kind, methinks...')
+                dispatch('addScore', {'field':'fourKind', 'id': getters.activePlayer.id, 'value':getters.kindScore(4)})
+                commit('resetStepNumber')
+            } else if (getters.valFrequency(4) >= 4 && getters.availableFields.includes('threeKind')) {
+                console.log('Wish I didn\'t have to resort to three of a kind, but oh well')
+                dispatch('addScore', {'field':'threeKind', 'id': getters.activePlayer.id, 'value':getters.kindScore(3)})
+                commit('resetStepNumber')
+            } else if (getters.valFrequency(4) >= 4 && getters.availableFields.includes('chance')) {
+                console.log('lame...wasting it on the chance...')
+                dispatch('addScore', {'field':'chance', 'id': getters.activePlayer.id, 'value':getters.kindScore(1)})
+                commit('resetStepNumber')
+            } else if (getters.valFrequency(4) >= 4 && getters.availableFields.includes('one')) {
+                console.log('I\'ll take a hit on my ones')
+                dispatch('addUpper', 1)
+                commit('resetStepNumber')
+            } else if (getters.valFrequency(4) >= 4 && getters.availableFields.includes('two')) {
+                console.log('I\'ll take a big hit on my twos')
+                dispatch('addUpper', 2)
+                commit('resetStepNumber')
+            } else if (getters.valFrequency(4) >= 4 && getters.availableFields.includes('tristzee')) {
+                console.log('I\'ll throw away my Tristzee...maybe my luck will change soon')
+                dispatch('addScore', {'field':'tristzee', 'id': getters.activePlayer.id, 'value':getters.kindScore(5)})
+                commit('resetStepNumber')
+            } else if (getters.valFrequency(4) >= 4) {
+                console.log('Wow, I\'m not smart enough to figure out what to do next!')
             }
         },
         tristzeeStrategy ({ getters, dispatch, rootState, commit }) {
@@ -59,11 +90,11 @@ export default {
                     // dispatch('addScore', {'field': getters.fieldByNumber(rootState.dice[0].value), 'id': getters.activePlayer.id, 'value': state.potentialScores[getters.fieldByNumber(rootState.dice[0].value)]})
                     // commit('resetStepNumber')
                     dispatch('addUpper', rootState.dice[0].value)
-                } else if (getters.available.includes('fourKind')) {
+                } else if (getters.availableFields.includes('fourKind')) {
                     console.log('four of a kind aint bad...')
                     dispatch('addScore', {'field':'fourKind', 'id': getters.activePlayer.id, 'value':getters.kindScore(4)})
                     commit('resetStepNumber')
-                } else if (getters.available.includes('threeKind')) {
+                } else if (getters.availableFields.includes('threeKind')) {
                     console.log('I suppose three of a kind isnt the worst...')
                     dispatch('addScore', {'field':'threeKind', 'id': getters.activePlayer.id, 'value':getters.kindScore(3)})
                     commit('resetStepNumber')
@@ -72,17 +103,17 @@ export default {
                 }
             } else {
                 console.log('Bummer! These are some pretty low value dice, let\'s see what else we can do with these...')
-                if (getters.available.includes(getters.fieldByNumber(rootState.dice[0].value))) {
+                if (getters.availableFields.includes(getters.fieldByNumber(rootState.dice[0].value))) {
                     // console.log(`guess ill just add ${state.potentialScores[getters.fieldByNumber(rootState.dice[0].value)]} to ${getters.fieldByNumber(rootState.dice[0].value)}`)
                     // dispatch('addScore', {'field': getters.fieldByNumber(rootState.dice[0].value), 'id': getters.activePlayer.id, 'value': state.potentialScores[getters.fieldByNumber(rootState.dice[0].value)]})
                     // commit('resetStepNumber')
                     dispatch('addUpper', rootState.dice[0].value)
-                } else if (getters.available.includes('fourKind')) {
+                } else if (getters.availableFields.includes('fourKind')) {
                     console.log('Four of a kind will have to do...')
                     dispatch('addScore', {'field':'fourKind', 'id': getters.activePlayer.id, 'value':getters.kindScore(4)})
                     commit('resetStepNumber')
                     // check to see if it's smarter to go for fullhouse???
-                } else if (getters.available.includes('threeKind')) {
+                } else if (getters.availableFields.includes('threeKind')) {
                     console.log('I suppose three of a kind isnt the worst...')
                     dispatch('addScore', {'field':'threeKind', 'id': getters.activePlayer.id, 'value':getters.kindScore(3)})
                     commit('resetStepNumber')
@@ -168,10 +199,10 @@ export default {
     //         dispatch('addScore', {'field':'tristzee', 'id': activePlayer.id, 'value':getters.kindScore(5)})
     //     } else if (rootState.dice[0].value >= 4){
     //         console.log('high value tristzee! yum')
-    //         if (available.includes('fourKind')) {
+    //         if (availableFields.includes('fourKind')) {
     //             console.log('four of a kind aint bad...')
     //             dispatch('addScore', {'field':'fourKind', 'id': activePlayer.id, 'value':getters.kindScore(4)})
-    //         } else if (available.includes('threeKind')) {
+    //         } else if (availableFields.includes('threeKind')) {
     //             console.log('I suppose three of a kind isnt the worst...')
     //             dispatch('addScore', {'field':'threeKind', 'id': activePlayer.id, 'value':getters.kindScore(3)})
     //         } else {
@@ -179,10 +210,10 @@ export default {
     //         }
     //     } else {
     //         console.log('bummer! lets see what else we can do with this')
-    //         if (available.includes(getters.fieldByNumber(rootState.dice[0].value))) {
+    //         if (availableFields.includes(getters.fieldByNumber(rootState.dice[0].value))) {
     //             console.log(`guess ill just add ${state.potentialScores[getters.fieldByNumber(rootState.dice[0].value)]} to ${getters.fieldByNumber(rootState.dice[0].value)}`)
     //             dispatch('addScore', {'field': getters.fieldByNumber(rootState.dice[0].value), 'id': activePlayer.id, 'value': state.potentialScores[getters.fieldByNumber(rootState.dice[0].value)]})
-    //         } else if (available.includes('threeKind')) {
+    //         } else if (availableFields.includes('threeKind')) {
     //             console.log('I suppose three of a kind isnt the worst...')
     //             dispatch('addScore', {'field':'threeKind', 'id': activePlayer.id, 'value':getters.kindScore(3)})
     //         } else {
@@ -193,6 +224,17 @@ export default {
     //     console.log('something else')
     // }
     getters: {
+        diceValueCounts: (state, getters, rootState) => {
+            return rootState.dice
+                .map(d => d.value)
+                .reduce((t, c) => {
+                    t[c] = (t[c] || 0) + 1
+                    return t
+                }, {})
+        },
+        valFrequency: (state, getters) => val => {
+            return parseInt(Object.keys(getters.diceValueCounts).filter(v => getters.diceValueCounts[v] === val))
+        },
         lowerPossibilities: (state, getters) => {
             let possibility = ''
             if (getters.kindScore(5)) {
