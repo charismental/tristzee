@@ -1,15 +1,15 @@
 <template>
     <div id="upper-score">
-        <Upper :player="player" />
+        <!-- <Upper :player="player" /> -->
     </div>
 </template>
 
 <script>
-import Upper from '../components/ScoreCards/Upper'
+// import Upper from '../components/ScoreCards/Upper'
 export default {
-    components: {
-        Upper
-    },
+    // components: {
+    //     Upper
+    // },
     props: [
         'player'
     ]
