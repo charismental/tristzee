@@ -111,6 +111,16 @@ export default new Vuex.Store({
         const held = die.held
         Vue.set(state.dice[dieIndex], 'held', !held)
       }
+    },
+    holdDie (state, payload) {
+      const die = state.dice.find(d => d.id === payload.id)
+      const dieIndex = state.dice.indexOf(die)
+      Vue.set(state.dice[dieIndex], 'held', true)
+    },
+    unholdDie (state, payload) {
+      const die = state.dice.find(d => d.id === payload.id)
+      const dieIndex = state.dice.indexOf(die)
+      Vue.set(state.dice[dieIndex], 'held', false)
     }
   },
   actions: {
